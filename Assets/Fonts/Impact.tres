@@ -1,0 +1,5 @@
+[gd_resource type="SystemFont" format=3 uid="uid://ditk3obgv7r2e"]
+
+[resource]
+font_names = PackedStringArray("Impact")
+oversampling = 2.0

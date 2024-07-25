@@ -1,0 +1,201 @@
+[gd_scene load_steps=16 format=3 uid="uid://dxmjadcj5b5te"]
+
+[ext_resource type="Script" path="res://Scripts/UI/Title.gd" id="1_b2vqv"]
+[ext_resource type="Texture2D" uid="uid://bkvag4nimv5vm" path="res://Assets/UI/title.png" id="2_rf1yv"]
+[ext_resource type="AudioStream" uid="uid://dhrads46rl0ll" path="res://Assets/Audio/SFX/menu_static.ogg" id="4_0wa6g"]
+[ext_resource type="AudioStream" uid="uid://cy66ojrf8g4ux" path="res://Assets/Audio/Music/title.ogg" id="4_38he8"]
+[ext_resource type="Texture2D" uid="uid://dw6wepcq8bxl0" path="res://Assets/UI/static.png" id="6_wc35x"]
+[ext_resource type="Texture2D" uid="uid://bo2a7lexnhpsq" path="res://Assets/UI/title_bg.png" id="7_8rb8v"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gi47j"]
+atlas = ExtResource("6_wc35x")
+region = Rect2(0, 0, 426, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c1ra7"]
+atlas = ExtResource("6_wc35x")
+region = Rect2(426, 0, 426, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_crtac"]
+atlas = ExtResource("6_wc35x")
+region = Rect2(852, 0, 426, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ku74h"]
+atlas = ExtResource("6_wc35x")
+region = Rect2(1278, 0, 426, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_asvvt"]
+atlas = ExtResource("6_wc35x")
+region = Rect2(1704, 0, 426, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s7g75"]
+atlas = ExtResource("6_wc35x")
+region = Rect2(0, 240, 426, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8p3ah"]
+atlas = ExtResource("6_wc35x")
+region = Rect2(426, 240, 426, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ee0uj"]
+atlas = ExtResource("6_wc35x")
+region = Rect2(852, 240, 426, 240)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_81sst"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gi47j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c1ra7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_crtac")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ku74h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_asvvt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s7g75")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8p3ah")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ee0uj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 30.0
+}]
+
+[node name="Title" type="Control"]
+texture_filter = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_b2vqv")
+
+[node name="SFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_0wa6g")
+volume_db = -15.0
+autoplay = true
+mix_target = 1
+bus = &"SFX"
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_38he8")
+volume_db = -80.0
+pitch_scale = 0.4
+autoplay = true
+mix_target = 1
+bus = &"Music"
+
+[node name="TitleBG" type="Sprite2D" parent="."]
+texture_filter = 3
+texture = ExtResource("7_8rb8v")
+centered = false
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.247059)
+sprite_frames = SubResource("SpriteFrames_81sst")
+autoplay = "default"
+frame_progress = 0.618027
+centered = false
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+modulate = Color(0.8, 0.8, 0.8, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="Logo" type="TextureRect" parent="MarginContainer"]
+custom_minimum_size = Vector2(180, 80)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("2_rf1yv")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Buttons" type="VBoxContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_constants/separation = -8
+
+[node name="solo" type="Button" parent="MarginContainer/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.894531, 0.894531, 0.894531, 1)
+theme_override_font_sizes/font_size = 16
+text = "SOLO"
+flat = true
+
+[node name="multi" type="Button" parent="MarginContainer/Buttons"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.894531, 0.894531, 0.894531, 1)
+theme_override_font_sizes/font_size = 24
+text = "MULTIPLAYER"
+flat = true
+
+[node name="host" type="Button" parent="MarginContainer/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.894531, 0.894531, 0.894531, 1)
+theme_override_font_sizes/font_size = 16
+text = "HOST"
+flat = true
+
+[node name="join" type="Button" parent="MarginContainer/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.894531, 0.894531, 0.894531, 1)
+theme_override_font_sizes/font_size = 16
+text = "JOIN"
+flat = true
+
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/Buttons/join"]
+layout_mode = 0
+offset_left = 41.0
+offset_top = -1.0
+offset_right = 111.0
+offset_bottom = 27.0
+
+[node name="settings" type="Button" parent="MarginContainer/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.894531, 0.894531, 0.894531, 1)
+theme_override_font_sizes/font_size = 16
+disabled = true
+text = "SETTINGS"
+flat = true
+
+[node name="quit" type="Button" parent="MarginContainer/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.894531, 0.894531, 0.894531, 1)
+theme_override_font_sizes/font_size = 16
+text = "QUIT"
+flat = true

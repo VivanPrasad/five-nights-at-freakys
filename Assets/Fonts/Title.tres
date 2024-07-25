@@ -1,0 +1,6 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://bhthuiww6xd31"]
+
+[ext_resource type="SystemFont" uid="uid://ditk3obgv7r2e" path="res://Assets/Fonts/Impact.tres" id="1_unrpp"]
+
+[resource]
+base_font = ExtResource("1_unrpp")
