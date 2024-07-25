@@ -1,0 +1,14 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://n5iq0evqr416"]
+
+[ext_resource type="Texture2D" uid="uid://qsh25wqlw1yj" path="res://Assets/Models/Map/textures/fnaf_pizzeria_1k_24.png" id="1_jkhue"]
+[ext_resource type="Texture2D" uid="uid://0xmeunsvsafl" path="res://Assets/Models/Map/textures/fnaf_pizzeria_1k_25.png" id="2_ay7uf"]
+
+[resource]
+resource_name = "puerta_de_seguridad"
+cull_mode = 2
+albedo_texture = ExtResource("1_jkhue")
+metallic = 1.0
+metallic_texture = ExtResource("2_ay7uf")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_ay7uf")
+roughness_texture_channel = 1

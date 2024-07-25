@@ -1,6 +1,6 @@
 extends Node3D
 class_name Game
-@onready var players: Node3D = $Players
+@onready var players: Node3D = $Entities/Players
 @onready var player_count_label: Label = $UI/Office/MarginContainer/VBoxContainer3/HBoxContainer2/PlayerCountLabel
 @onready var code_label: Label = $UI/Office/MarginContainer/VBoxContainer3/HBoxContainer/Code
 @onready var spawner: MultiplayerSpawner = $Spawner

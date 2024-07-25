@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=4 uid="uid://ca4dfgcnwfdul"]
 
-[ext_resource type="Texture2D" uid="uid://bjb8sbs8eyryx" path="res://Assets/Models/Map/fnaf_pizzeria_1k_16.png" id="1_7e1kr"]
+[ext_resource type="Texture2D" uid="uid://bjb8sbs8eyryx" path="res://Assets/Models/Map/textures/fnaf_pizzeria_1k_16.png" id="1_7e1kr"]
 [ext_resource type="Script" path="res://Scripts/Instances/Door.gd" id="1_swxkd"]
-[ext_resource type="Texture2D" uid="uid://27ubtas61773" path="res://Assets/Models/Map/fnaf_pizzeria_1k_17.png" id="2_qvtrd"]
+[ext_resource type="Texture2D" uid="uid://27ubtas61773" path="res://Assets/Models/Map/textures/fnaf_pizzeria_1k_17.png" id="2_qvtrd"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1ktax"]
 resource_name = "Door"

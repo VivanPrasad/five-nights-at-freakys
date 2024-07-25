@@ -1,0 +1,37 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://ixr04wqcr5w5"
+path="res://.godot/imported/fnaf_pizzeria_1k_23.png-7eef367884643fef0ae9acf2e384863d.ctex"
+metadata={
+"vram_texture": false
+}
+generator_parameters={
+"md5": "ae081fe406f8425a34a0ea06fcc9b39b"
+}
+
+[deps]
+
+source_file="res://Assets/Models/Map/textures/fnaf_pizzeria_1k_23.png"
+dest_files=["res://.godot/imported/fnaf_pizzeria_1k_23.png-7eef367884643fef0ae9acf2e384863d.ctex"]
+
+[params]
+
+compress/mode=1
+compress/high_quality=false
+compress/lossy_quality=0.0
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

@@ -1,9 +1,8 @@
-[gd_scene load_steps=36 format=4 uid="uid://il5detmgx7ah"]
+[gd_scene load_steps=33 format=4 uid="uid://il5detmgx7ah"]
 
 [ext_resource type="Script" path="res://Scripts/Game.gd" id="1_wp3rc"]
 [ext_resource type="AudioStream" uid="uid://cl4q8kupcn5n4" path="res://Assets/Audio/Ambience/office.ogg" id="2_62orv"]
 [ext_resource type="PackedScene" uid="uid://ca4dfgcnwfdul" path="res://Scenes/Instances/Door.tscn" id="2_an0jd"]
-[ext_resource type="PackedScene" uid="uid://b8yesertog1hp" path="res://Assets/Models/Map/Map.gltf" id="3_g2d6r"]
 [ext_resource type="AudioStream" uid="uid://c7k3fdafuqudf" path="res://Assets/Audio/Ambience/horror.ogg" id="3_rlr10"]
 [ext_resource type="FontFile" uid="uid://dox4xpepfxo8l" path="res://Assets/Fonts/fnaf-font.ttf" id="4_nrxcs"]
 [ext_resource type="PackedScene" uid="uid://c86v3gkecki1o" path="res://Assets/Models/Freddy/Freddy.glb" id="6_p60d2"]
@@ -13,8 +12,9 @@
 [ext_resource type="PackedScene" uid="uid://duppk4xlcjysc" path="res://Assets/Models/Chica/Chica.glb" id="8_ew5b0"]
 [ext_resource type="Texture2D" uid="uid://dxongxibfdf73" path="res://Assets/UI/Camera/cam_animation.png" id="9_ee7e5"]
 [ext_resource type="PackedScene" uid="uid://cg8ctg7m5n0am" path="res://Assets/Models/Foxy/Foxy.glb" id="9_qsbao"]
-[ext_resource type="Texture2D" uid="uid://qsh25wqlw1yj" path="res://Assets/Models/Map/fnaf_pizzeria_1k_24.png" id="14_rylup"]
-[ext_resource type="Texture2D" uid="uid://0xmeunsvsafl" path="res://Assets/Models/Map/fnaf_pizzeria_1k_25.png" id="15_k2bsr"]
+[ext_resource type="Texture2D" uid="uid://qsh25wqlw1yj" path="res://Assets/Models/Map/textures/fnaf_pizzeria_1k_24.png" id="14_rylup"]
+[ext_resource type="PackedScene" uid="uid://barc58iuhfgiu" path="res://Assets/Models/Map/Map.glb" id="15_0kehg"]
+[ext_resource type="Texture2D" uid="uid://0xmeunsvsafl" path="res://Assets/Models/Map/textures/fnaf_pizzeria_1k_25.png" id="15_k2bsr"]
 
 [sub_resource type="Environment" id="Environment_jp3n5"]
 background_mode = 1
@@ -120,15 +120,6 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_ag6fn")
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_20v1n"]
-size = Vector2(28, 25)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_61ra2"]
-albedo_color = Color(0, 0, 0, 1)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_jueqo"]
-size = Vector3(30.3009, 0.01, 24.0516)
-
 [sub_resource type="Animation" id="Animation_pd3sw"]
 resource_name = "OpenCam"
 length = 0.37
@@ -215,10 +206,14 @@ environment = SubResource("Environment_jp3n5")
 
 [node name="Spawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://Scenes/Instances/Player.tscn")
-spawn_path = NodePath("../Players")
+spawn_path = NodePath("../Entities/Players")
 spawn_limit = 5
 
-[node name="Players" type="Node3D" parent="."]
+[node name="Entities" type="Node3D" parent="."]
+
+[node name="Players" type="Node3D" parent="Entities"]
+
+[node name="Enemies" type="Node3D" parent="Entities"]
 
 [node name="Office" type="Node3D" parent="."]
 
@@ -328,21 +323,6 @@ unit_size = 2.0
 autoplay = true
 panning_strength = 0.0
 bus = &"Ambience"
-
-[node name="Map" parent="." instance=ExtResource("3_g2d6r")]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 1.048, 3, 0.925)
-mesh = SubResource("PlaneMesh_20v1n")
-surface_material_override/0 = SubResource("StandardMaterial3D_61ra2")
-metadata/_edit_group_ = true
-metadata/_edit_lock_ = true
-
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.005, -0.19, 0.203)
-shape = SubResource("BoxShape3D_jueqo")
 
 [node name="Freddy" parent="." instance=ExtResource("6_p60d2")]
 transform = Transform3D(0.0766044, 0, 0.0642788, 0, 0.1, 0, -0.0642788, 0, 0.0766044, 1.93948, 0.58, -9.09781)
@@ -532,6 +512,10 @@ offset_right = 426.0
 offset_bottom = 240.0
 texture = ExtResource("8_6yu5e")
 
+[node name="MarginContainer" type="MarginContainer" parent="UI"]
+offset_right = 40.0
+offset_bottom = 40.0
+
 [node name="Door" parent="." instance=ExtResource("2_an0jd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5844, 0.993454, -3.1326)
 
@@ -549,5 +533,7 @@ transform = Transform3D(-2.52881e-07, 0, -1, 0, 1, 0, 1, 0, -2.52881e-07, 7.7038
 
 [node name="ClosetDoor" parent="." instance=ExtResource("2_an0jd")]
 transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, -6.31789, 0.993454, 5.87456)
+
+[node name="Map" parent="." instance=ExtResource("15_0kehg")]
 
 [connection signal="despawned" from="Spawner" to="." method="_player_disconnected"]
