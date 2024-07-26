@@ -13,19 +13,29 @@ const GAME : PackedScene = preload("res://Scenes/Game.tscn")
 func _ready() -> void:
 	connect_buttons()
 	join_button.tooltip_text = "Local Join Code: %s" % Multi.get_code_from_ip("127.0.0.1")
-	create_tween().tween_property(music,"volume_db",-12.0,5.0)\
-	.set_delay(1.5)\
+	create_tween().tween_property(music,"volume_db",-8.0,5.0)\
+	.set_delay(1.0)\
 	.set_trans(Tween.TRANS_CIRC)
 
 ## Connect menu buttons with functions 
 func connect_buttons() -> void:
 	for button : Button in buttons.get_children():
-		button.pressed.connect(_on_button_pressed.bind(button))
+		button.pressed.connect(
+			_on_button_pressed.bind(button))
+		button.mouse_entered.connect(
+			_on_button_entered.bind(button))
+		button.mouse_exited.connect(
+			_on_button_exited.bind(button))
 		button.text = button.name.to_upper()
 		button.focus_mode = Control.FOCUS_NONE
 
+func _on_button_entered(button : Button) -> void:
+	if not button.disabled: button.text = "> %s" \
+		% button.name.to_upper()
+func _on_button_exited(button : Button) -> void:
+	button.text = button.name.to_upper()
 func _on_button_pressed(button : Button) -> void:
-	match button.name:
+	match button.name.to_lower():
 		"solo":
 			var scene : Game = GAME.instantiate()
 			scene.is_solo = true
@@ -46,6 +56,6 @@ func _on_button_pressed(button : Button) -> void:
 			get_tree().change_scene_to_packed(packed)
 		"quit":
 			get_tree().quit()
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	join_button.disabled = len(line_edit.text) != 8
+
+func _on_line_edit_text_changed(_new_text: String) -> void:
+	join_button.disabled = len(line_edit.text) != 8 or not Multi.get_ip_from_code(line_edit.text).is_valid_ip_address()

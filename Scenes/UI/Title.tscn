@@ -1,11 +1,11 @@
 [gd_scene load_steps=16 format=3 uid="uid://dxmjadcj5b5te"]
 
 [ext_resource type="Script" path="res://Scripts/UI/Title.gd" id="1_b2vqv"]
-[ext_resource type="Texture2D" uid="uid://bkvag4nimv5vm" path="res://Assets/UI/title.png" id="2_rf1yv"]
-[ext_resource type="AudioStream" uid="uid://dhrads46rl0ll" path="res://Assets/Audio/SFX/menu_static.ogg" id="4_0wa6g"]
-[ext_resource type="AudioStream" uid="uid://cy66ojrf8g4ux" path="res://Assets/Audio/Music/title.ogg" id="4_38he8"]
-[ext_resource type="Texture2D" uid="uid://dw6wepcq8bxl0" path="res://Assets/UI/static.png" id="6_wc35x"]
-[ext_resource type="Texture2D" uid="uid://bo2a7lexnhpsq" path="res://Assets/UI/title_bg.png" id="7_8rb8v"]
+[ext_resource type="Texture2D" uid="uid://dmsggskg33glf" path="res://Assets/UI/title.png" id="2_rf1yv"]
+[ext_resource type="AudioStream" uid="uid://o2htwjg5lctp" path="res://Assets/Audio/SFX/menu_static.ogg" id="4_0wa6g"]
+[ext_resource type="AudioStream" uid="uid://ds7phowdqcoxt" path="res://Assets/Audio/Music/title.ogg" id="4_38he8"]
+[ext_resource type="Texture2D" uid="uid://c3v1stcb1d3nw" path="res://Assets/UI/static.png" id="6_wc35x"]
+[ext_resource type="Texture2D" uid="uid://dnchophtl5pvg" path="res://Assets/UI/title_bg.png" id="7_8rb8v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gi47j"]
 atlas = ExtResource("6_wc35x")
@@ -83,7 +83,7 @@ script = ExtResource("1_b2vqv")
 
 [node name="SFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_0wa6g")
-volume_db = -15.0
+volume_db = -18.0
 autoplay = true
 mix_target = 1
 bus = &"SFX"
@@ -171,6 +171,7 @@ size_flags_horizontal = 0
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(0.894531, 0.894531, 0.894531, 1)
 theme_override_font_sizes/font_size = 16
+disabled = true
 text = "JOIN"
 flat = true
 
@@ -199,3 +200,5 @@ theme_override_colors/font_color = Color(0.894531, 0.894531, 0.894531, 1)
 theme_override_font_sizes/font_size = 16
 text = "QUIT"
 flat = true
+
+[connection signal="text_changed" from="MarginContainer/Buttons/join/LineEdit" to="." method="_on_line_edit_text_changed"]

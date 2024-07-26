@@ -1,6 +1,7 @@
 extends Node
 class_name Multi
 
+# ---------------------------------------------------------
 static func get_shift_value() -> int:
 	var time : Dictionary = Time.get_datetime_dict_from_system(true)
 	var shift_value : int = abs(

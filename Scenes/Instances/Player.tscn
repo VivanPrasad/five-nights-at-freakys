@@ -1,8 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://dbc3i1bkur8fp"]
+[gd_scene load_steps=25 format=3 uid="uid://dbc3i1bkur8fp"]
 
 [ext_resource type="Script" path="res://Scripts/Instances/Player.gd" id="1_dg1qr"]
-[ext_resource type="Texture2D" uid="uid://dxifb4o0nexmx" path="res://Assets/Models/Players/face.png" id="2_5kcku"]
-[ext_resource type="AudioStream" uid="uid://cvkau4ru3iao4" path="res://Assets/Audio/SFX/step.mp3" id="2_tllkj"]
+[ext_resource type="Texture2D" uid="uid://bhsfvqpiq6ln7" path="res://Assets/Models/Players/face.png" id="2_5kcku"]
+[ext_resource type="AudioStream" uid="uid://b74vwl0ujvf4m" path="res://Assets/Audio/SFX/step.mp3" id="2_tllkj"]
+[ext_resource type="AudioStream" uid="uid://k1d5vfau3ghy" path="res://Assets/Audio/SFX/flashlight.ogg" id="4_va1iw"]
+[ext_resource type="Texture2D" uid="uid://bg8jge4vrdw7h" path="res://Assets/UI/Camera/cam_animation.png" id="5_t4juj"]
+[ext_resource type="FontFile" uid="uid://b6kcxtofexiyt" path="res://Assets/Fonts/fnaf-font.ttf" id="6_6cody"]
+[ext_resource type="Texture2D" uid="uid://6unmdwdrw4dv" path="res://Assets/UI/Office/usage.png" id="7_7kqac"]
+[ext_resource type="Texture2D" uid="uid://dno70sbp5chli" path="res://Assets/UI/Camera/border.png" id="8_mcfeu"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_pqfqb"]
 radius = 0.05
@@ -12,12 +17,12 @@ height = 0.4
 radius = 0.18
 height = 0.36
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_hyu5c"]
-points = PackedVector3Array(0.285973, 0.510012, 0.0641187, -0.289751, -0.508273, -0.0465441, -0.26598, -0.527103, -0.112181, -0.246023, 0.575754, -0.113096, -0.0901399, 0.482689, 0.282961, 0.175116, -0.554551, 0.219505, 0.128954, -0.503414, -0.265106, 0.0418549, 0.509109, -0.290224, -0.221324, -0.503449, 0.194662, 0.282961, -0.482689, -0.0901399, 0.0432991, -0.731525, -0.0937992, -0.133756, -0.481621, -0.265187, -0.28676, 0.459275, 0.0850819, 0.043378, 0.732789, 0.0891953, 0.216729, 0.503833, -0.199575, 0.149104, 0.475981, 0.257347, -0.0687028, -0.508648, 0.285201, -0.175344, 0.475511, -0.240225, -0.0928164, -0.700993, 0.133301, 0.280243, -0.434652, 0.106286, 0.0879502, 0.700185, -0.137906, -0.183195, 0.677895, 0.0653882, 0.179259, -0.680995, 0.0656981, 0.0857793, -0.484897, 0.284266, -0.0706391, 0.705603, -0.138955, -0.286183, 0.436464, -0.0896661, -0.114948, -0.675374, -0.159997, -0.221324, 0.503449, 0.194662, 0.285201, 0.508648, -0.0687028, -0.0465451, -0.508284, -0.289757, 0.238621, 0.503781, 0.172878, 0.0641199, 0.51002, 0.285977)
-
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_34oaf"]
 radius = 0.18
 height = 0.6
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_hyu5c"]
+points = PackedVector3Array(0.285973, 0.510012, 0.0641187, -0.289751, -0.508273, -0.0465441, -0.26598, -0.527103, -0.112181, -0.246023, 0.575754, -0.113096, -0.0901399, 0.482689, 0.282961, 0.175116, -0.554551, 0.219505, 0.128954, -0.503414, -0.265106, 0.0418549, 0.509109, -0.290224, -0.221324, -0.503449, 0.194662, 0.282961, -0.482689, -0.0901399, 0.0432991, -0.731525, -0.0937992, -0.133756, -0.481621, -0.265187, -0.28676, 0.459275, 0.0850819, 0.043378, 0.732789, 0.0891953, 0.216729, 0.503833, -0.199575, 0.149104, 0.475981, 0.257347, -0.0687028, -0.508648, 0.285201, -0.175344, 0.475511, -0.240225, -0.0928164, -0.700993, 0.133301, 0.280243, -0.434652, 0.106286, 0.0879502, 0.700185, -0.137906, -0.183195, 0.677895, 0.0653882, 0.179259, -0.680995, 0.0656981, 0.0857793, -0.484897, 0.284266, -0.0706391, 0.705603, -0.138955, -0.286183, 0.436464, -0.0896661, -0.114948, -0.675374, -0.159997, -0.221324, 0.503449, 0.194662, 0.285201, 0.508648, -0.0687028, -0.0465451, -0.508284, -0.289757, 0.238621, 0.503781, 0.172878, 0.0641199, 0.51002, 0.285977)
 
 [sub_resource type="Animation" id="Animation_u5ju0"]
 resource_name = "Move"
@@ -65,22 +70,114 @@ properties/1/path = NodePath("Neck:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
+[sub_resource type="Gradient" id="Gradient_mo6r7"]
+offsets = PackedFloat32Array(0.280645, 0.287097)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_nwpaq"]
+gradient = SubResource("Gradient_mo6r7")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="Animation" id="Animation_pd3sw"]
+resource_name = "OpenCam"
+length = 0.37
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CameraAnim:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333, 0.266667, 0.3, 0.333333, 0.366667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CameraAnim:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.37),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, true]
+}
+
+[sub_resource type="Animation" id="Animation_vcpgk"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CameraAnim:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CameraAnim:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dgsfx"]
+_data = {
+"OpenCam": SubResource("Animation_pd3sw"),
+"RESET": SubResource("Animation_vcpgk")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_w23kd"]
+line_spacing = 0.0
+font = ExtResource("6_6cody")
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_cpho0"]
+font = ExtResource("6_6cody")
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_4hemx"]
+font = ExtResource("6_6cody")
+
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 2
 script = ExtResource("1_dg1qr")
 
 [node name="Neck" type="Node3D" parent="."]
 
 [node name="Camera" type="Camera3D" parent="Neck"]
+far = 200.0
 
 [node name="Flashlight" type="SpotLight3D" parent="Neck/Camera"]
-light_color = Color(1, 0.530145, 0.898365, 1)
+light_color = Color(1, 0.645757, 0.890324, 1)
 light_volumetric_fog_energy = 0.0
-spot_range = 5.5
+spot_range = 5.6
 spot_attenuation = -1.0
 spot_angle = 35.0
 
-[node name="RayCast3D" type="RayCast3D" parent="Neck"]
+[node name="Selector" type="RayCast3D" parent="Neck/Camera"]
+target_position = Vector3(0, 0, -1.5)
+hit_from_inside = true
+collide_with_areas = true
+collide_with_bodies = false
 
 [node name="Face" type="Sprite3D" parent="Neck"]
 transform = Transform3D(0.08, 0, 0, 0, 0.08, 0, 0, 0, 0.08, 0, -0.0602113, -0.180498)
@@ -111,26 +208,193 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0517123, 0)
 mesh = SubResource("SphereMesh_fuapd")
 skeleton = NodePath("../..")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
-shape = SubResource("ConvexPolygonShape3D_hyu5c")
-
-[node name="Body" type="MeshInstance3D" parent="CollisionShape3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00440729, 0)
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.495593, 0)
 mesh = SubResource("CapsuleMesh_34oaf")
-skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.55, 0)
+shape = SubResource("ConvexPolygonShape3D_hyu5c")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_mmysx")
 }
 autoplay = "Move"
+speed_scale = 0.3
 
 [node name="Footstep" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("2_tllkj")
 attenuation_model = 2
 volume_db = -18.0
-max_db = 0.0
+unit_size = 1.0
+max_db = -1.0
+max_distance = 1.0
+bus = &"SFX"
+
+[node name="Flashlight" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_va1iw")
+attenuation_model = 2
+volume_db = -18.0
+max_db = -3.0
+bus = &"SFX"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_resxt")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="SelectorHUD" type="Sprite2D" parent="HUD"]
+visible = false
+modulate = Color(1, 1, 1, 0.556863)
+texture = SubResource("GradientTexture2D_nwpaq")
+offset = Vector2(213.333, 120)
+
+[node name="Label" type="Label" parent="HUD/SelectorHUD"]
+modulate = Color(1, 1, 1, 0.239216)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 163.0
+offset_top = 120.0
+offset_right = 247.0
+offset_bottom = 133.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("6_6cody")
+theme_override_font_sizes/font_size = 16
+text = "Click to interact"
+
+[node name="CameraAnim" type="Sprite2D" parent="HUD"]
+visible = false
+modulate = Color(1, 0.476504, 0.9326, 1)
+texture_filter = 1
+texture = ExtResource("5_t4juj")
+centered = false
+hframes = 4
+vframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HUD/CameraAnim"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_dgsfx")
+}
+
+[node name="OfficeHUD" type="Control" parent="HUD"]
+modulate = Color(1, 1, 1, 0)
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/OfficeHUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/OfficeHUD/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/separation = -4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/OfficeHUD/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="hour" type="Label" parent="HUD/OfficeHUD/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "12"
+label_settings = SubResource("LabelSettings_w23kd")
+
+[node name="Label" type="Label" parent="HUD/OfficeHUD/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "AM"
+label_settings = SubResource("LabelSettings_cpho0")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HUD/OfficeHUD/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Label" type="Label" parent="HUD/OfficeHUD/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "Night"
+label_settings = SubResource("LabelSettings_4hemx")
+horizontal_alignment = 2
+
+[node name="night" type="Label" parent="HUD/OfficeHUD/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "1"
+label_settings = SubResource("LabelSettings_4hemx")
+horizontal_alignment = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HUD/OfficeHUD/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/OfficeHUD/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HUD/OfficeHUD/MarginContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "Power left:"
+label_settings = SubResource("LabelSettings_4hemx")
+
+[node name="power" type="Label" parent="HUD/OfficeHUD/MarginContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "Inf%"
+label_settings = SubResource("LabelSettings_4hemx")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HUD/OfficeHUD/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="HUD/OfficeHUD/MarginContainer/VBoxContainer2/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "Usage:"
+label_settings = SubResource("LabelSettings_4hemx")
+
+[node name="usage" type="Sprite2D" parent="HUD/OfficeHUD/MarginContainer/VBoxContainer2/HBoxContainer2"]
+position = Vector2(61, 4)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_7kqac")
+hframes = 5
+
+[node name="CameraHUD" type="Control" parent="HUD"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Border" type="TextureRect" parent="HUD/CameraHUD"]
+texture_filter = 1
+layout_mode = 0
+offset_right = 426.0
+offset_bottom = 240.0
+texture = ExtResource("8_mcfeu")
