@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://bnoxbrtn652do"]
+
+[ext_resource type="Texture2D" uid="uid://d3awkeg78y6jq" path="res://Assets/UI/Camera/cam_button.png" id="1_xhp04"]
+[ext_resource type="Texture2D" uid="uid://dma20qvpi7dk" path="res://Assets/UI/Camera/cam_button2.png" id="2_e7chw"]
+[ext_resource type="Script" path="res://Scripts/Instances/CamButton.gd" id="3_mj6vg"]
+[ext_resource type="FontFile" uid="uid://b6kcxtofexiyt" path="res://Assets/Fonts/fnaf-font.ttf" id="4_capn5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ycjxb"]
+line_spacing = -4.0
+font = ExtResource("4_capn5")
+
+[node name="XX" type="TextureButton"]
+custom_minimum_size = Vector2(34, 22)
+offset_right = 34.0
+offset_bottom = 22.0
+toggle_mode = true
+texture_normal = ExtResource("1_xhp04")
+texture_pressed = ExtResource("2_e7chw")
+stretch_mode = 0
+script = ExtResource("3_mj6vg")
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 2.0
+offset_right = -6.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "CAM
+XX"
+label_settings = SubResource("LabelSettings_ycjxb")

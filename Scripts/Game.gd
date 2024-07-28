@@ -7,10 +7,17 @@ extends Node3D
 
 @onready var multiplayer_ui: MarginContainer = $UI/MultiplayerUI
 
+@onready var hour_tick: Timer = $HourTick
+@onready var power_tick: Timer = $PowerTick
+
 @onready var code_label: Label = $UI/MultiplayerUI/VBoxContainer/HBoxContainer/CodeLabel
 @onready var player_count_label: Label = $UI/MultiplayerUI/VBoxContainer/HBoxContainer2/PlayerCountLabel
 
 @onready var office_area: Area3D = $Office/OfficeArea
+
+@onready var outage_sfx: AudioStreamPlayer3D = $Office/OutageSFX
+@onready var complete_animation: AnimationPlayer = $UI/CompleteScreen/AnimationPlayer
+
 
 const PLAYER_SCENE = preload("res://Scenes/Instances/Player.tscn")
 
@@ -37,13 +44,18 @@ static var lights : Array[bool] = [false,false]
 static var power : float = 100.50 :
 	set(value): power = clamp(value,0.0,100.50)
 static var usage : int = 1
-static var hour : int = 0 #0 = 12AM
+static var hour : int = 0 : #0 = 12AM 
+	set(value) : hour = clamp(value,0,6)
 
+static var has_power : bool = true # Office Power
+static var complete : bool = false
 ## Initialize game
 func _ready() -> void:
 	setup_game()
 	# --- Solo ---
 	if is_solo:
+		hour_tick.start()
+		power_tick.start()
 		add_player()
 		return
 	# --- Multiplayer ---
@@ -83,19 +95,15 @@ func host_game() -> void:
 	multiplayer.multiplayer_peer = peer
 	multiplayer.peer_connected.connect(add_player)
 	add_player()
+	power_tick.start()
+	hour_tick.start()
 
 ## Join the game with the given IP
 func join_game() -> void:
 	code_label.text = Multi.get_code_from_ip(ip)
 	peer.create_client(ip,PORT)
 	multiplayer.multiplayer_peer = peer
-	await get_tree().create_timer(0.1).timeout
-	if player_count < 1:
-		multiplayer.multiplayer_peer.close()
-		get_tree().change_scene_to_file("res://Scenes/UI/Title.tscn")
-	
 	#peer.get_peer(1).send(1,"hello".to_ascii_buffer(),ENetPacketPeer.FLAG_RELIABLE)
-	
 	
 ## Creates new Player classes to be added into the game
 func add_player(id : int = 1) -> void:
@@ -111,8 +119,36 @@ func _player_disconnected(node : Node):
 	prints("Player",node.name,"left the game!")
 
 ## Game Process
-func _process(_delta: float) -> void:
-	# Player Count Updates
+func _process(delta: float) -> void:
+	# Power Updates
+	if is_solo or is_host:
+		power -= (delta * clamp(usage,1,5) * 0.1)
+	# Invariant Condition Updates
+	if int(floor(power)) < 1 and has_power:
+		var office_node := $Office
+		$Office/OfficeLight.hide()
+		$Office/OfficeBulb.hide()
+		$Office/OfficeAmb.hide()
+		$Office/OfficeAmb.stop()
+		player.horror_amb.stop()
+		player.bass_amb.stop()
+		outage_sfx.play()
+		usage = 1
+		for light in lights:
+			if light:
+				(office_node.get_child(0) as Wing).toggle_light()
+		for door in doors:
+			if door:
+				(office_node.get_child(0) as Wing).toggle_door()
+		if player.in_cams:
+			player.toggle_cams()
+		has_power = false
+	elif hour == 6 and not complete:
+		get_tree().paused = true
+		
+		complete_animation.play("Complete")
+		complete = true
+	# Multiplayer Updates
 	if is_solo: return
 	player_count = players.get_child_count()
 	player_count_label.text = "%s/%s" % [player_count,MAX_PLAYERS]
@@ -125,3 +161,30 @@ func _on_office_exited(body : Node3D):
 	if body is Player:
 		if body.is_multiplayer_authority():
 			body.in_office = false
+
+# ------------- Multiplayer Stuff -------------
+
+@rpc("any_peer","call_local")
+static func update_usage(new_value:int) -> void:
+	usage = new_value
+	player.usage_hud.frame = clamp(usage,1,5) - 1
+
+@rpc("authority","call_local")
+static func update_power(new_value:float) -> void:
+	power = new_value
+	player.power_hud.text = str(int(floor(power))) + "%"
+	
+@rpc("authority","call_local")
+static func update_hour(new_value:int) -> void:
+	hour = new_value
+	player.hour_hud.text = str(hour)
+
+func _on_power_tick_timeout() -> void:
+	rpc("update_power",power)
+func _on_hour_tick_timeout() -> void:
+	hour += 1
+	rpc("update_hour",hour)
+	if hour < 6: hour_tick.start()
+
+func return_to_menu() -> void:
+	get_tree().change_scene_to_file("res://Scenes/Menus/Title.tscn")

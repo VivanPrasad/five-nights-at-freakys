@@ -1,0 +1,66 @@
+[gd_scene load_steps=2 format=3 uid="uid://bar3usb5yfym4"]
+
+[ext_resource type="Environment" uid="uid://b58flw1emefrk" path="res://Data/Shaders/CamFeed.tres" id="1_bwe64"]
+
+[node name="Cameras" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.990268, -0.0121297, 0.138644, 0, 0.996195, 0.0871557, -0.139173, -0.0863075, 0.9865, -0.395, 2.69, -5.542)
+environment = ExtResource("1_bwe64")
+fov = 65.0
+far = 6.0
+
+[node name="Camera3D2" type="Camera3D" parent="."]
+transform = Transform3D(-0.936672, 0.105309, -0.333999, 0, 0.953717, 0.300706, 0.350207, 0.281663, -0.89332, -2.89, 2.82, -8.177)
+environment = ExtResource("1_bwe64")
+fov = 65.0
+
+[node name="Camera3D3" type="Camera3D" parent="."]
+transform = Transform3D(0.267238, -0.289769, 0.919031, 0, 0.953717, 0.300706, -0.96363, -0.0803601, 0.25487, -6.665, 2.82, 0.468)
+environment = ExtResource("1_bwe64")
+fov = 65.0
+
+[node name="Camera3D4" type="Camera3D" parent="."]
+transform = Transform3D(0.849966, -0.013791, 0.526657, 3.37817e-10, 0.999657, 0.026177, -0.526837, -0.0222495, 0.849675, -3.03044, 2.35, 9.698)
+environment = ExtResource("1_bwe64")
+fov = 65.0
+
+[node name="Camera3D5" type="Camera3D" parent="."]
+transform = Transform3D(-0.615661, -0.616704, 0.490548, 0, 0.622515, 0.782608, -0.78801, 0.481822, -0.383258, -3.055, 2.69, 9.998)
+environment = ExtResource("1_bwe64")
+fov = 65.0
+
+[node name="Camera3D6" type="Camera3D" parent="."]
+transform = Transform3D(0.936672, -0.251918, 0.243275, 0, 0.694658, 0.71934, -0.350207, -0.673786, 0.650667, -7.06, 2.35, 7.138)
+environment = ExtResource("1_bwe64")
+fov = 65.0
+
+[node name="Camera3D7" type="Camera3D" parent="."]
+transform = Transform3D(0.97237, 0.00611089, -0.233365, 0, 0.999657, 0.026177, 0.233445, -0.0254537, 0.972037, 3.18, 2.35, 9.053)
+environment = ExtResource("1_bwe64")
+fov = 65.0
+
+[node name="Camera3D8" type="Camera3D" parent="."]
+transform = Transform3D(-0.66262, 0.510787, -0.547751, 0, 0.731354, 0.681998, 0.748956, 0.451906, -0.48461, 2.77, 2.77, 9.578)
+environment = ExtResource("1_bwe64")
+fov = 65.0
+
+[node name="Camera3D11" type="Camera3D" parent="."]
+transform = Transform3D(0.953717, -0.136518, 0.267931, 0, 0.891007, 0.453991, -0.300706, -0.432978, 0.849768, -10.325, 1.81, -3.382)
+environment = ExtResource("1_bwe64")
+fov = 65.0
+
+[node name="Camera3D9" type="Camera3D" parent="."]
+transform = Transform3D(-0.725374, -0.317847, 0.610578, 0, 0.887011, 0.461749, -0.688354, 0.334941, -0.643415, 12.175, 2.35, 3.018)
+environment = ExtResource("1_bwe64")
+fov = 65.0
+
+[node name="Camera3D10" type="Camera3D" parent="."]
+transform = Transform3D(-0.688355, 0.265851, -0.674901, 0, 0.930418, 0.366501, 0.725374, 0.252283, -0.640457, 9.935, 2.84, -6.097)
+environment = ExtResource("1_bwe64")
+fov = 65.0
+
+[node name="Camera3D12" type="Camera3D" parent="."]
+transform = Transform3D(-0.93358, -0.213165, 0.288076, 0, 0.803857, 0.594823, -0.358368, 0.555315, -0.750465, 0.735, 3.15, 7.833)
+environment = ExtResource("1_bwe64")
+fov = 65.0

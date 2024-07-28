@@ -1,0 +1,243 @@
+[gd_scene load_steps=20 format=3 uid="uid://dq0nsqryvm57n"]
+
+[ext_resource type="Texture2D" uid="uid://dno70sbp5chli" path="res://Assets/UI/Camera/border.png" id="1_07iia"]
+[ext_resource type="Script" path="res://Scripts/Menus/CameraHUD.gd" id="1_b835q"]
+[ext_resource type="Texture2D" uid="uid://c3v1stcb1d3nw" path="res://Assets/UI/static.png" id="2_keyxp"]
+[ext_resource type="Texture2D" uid="uid://cfnvo86g2jvsg" path="res://Assets/UI/Camera/rec.png" id="3_8egif"]
+[ext_resource type="FontFile" uid="uid://b6kcxtofexiyt" path="res://Assets/Fonts/fnaf-font.ttf" id="4_bcwp6"]
+[ext_resource type="Texture2D" uid="uid://beifol1j2sjko" path="res://Assets/UI/Camera/map.png" id="5_micpn"]
+[ext_resource type="PackedScene" uid="uid://bnoxbrtn652do" path="res://Scenes/Instances/CamButton.tscn" id="7_m6ydh"]
+[ext_resource type="PackedScene" uid="uid://bar3usb5yfym4" path="res://Scenes/Instances/Cameras.tscn" id="8_egy33"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gi47j"]
+atlas = ExtResource("2_keyxp")
+region = Rect2(0, 0, 426, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c1ra7"]
+atlas = ExtResource("2_keyxp")
+region = Rect2(426, 0, 426, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_crtac"]
+atlas = ExtResource("2_keyxp")
+region = Rect2(852, 0, 426, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ku74h"]
+atlas = ExtResource("2_keyxp")
+region = Rect2(1278, 0, 426, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_asvvt"]
+atlas = ExtResource("2_keyxp")
+region = Rect2(1704, 0, 426, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s7g75"]
+atlas = ExtResource("2_keyxp")
+region = Rect2(0, 240, 426, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8p3ah"]
+atlas = ExtResource("2_keyxp")
+region = Rect2(426, 240, 426, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ee0uj"]
+atlas = ExtResource("2_keyxp")
+region = Rect2(852, 240, 426, 240)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_33moh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gi47j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c1ra7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_crtac")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ku74h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_asvvt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s7g75")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8p3ah")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ee0uj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 30.0
+}]
+
+[sub_resource type="LabelSettings" id="LabelSettings_svt5y"]
+line_spacing = 0.0
+font = ExtResource("4_bcwp6")
+
+[sub_resource type="LabelSettings" id="LabelSettings_u41x4"]
+font = ExtResource("4_bcwp6")
+font_size = 24
+
+[node name="CameraHUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_b835q")
+
+[node name="StaticBG" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.117647)
+position = Vector2(1.52588e-05, 7.62939e-06)
+sprite_frames = SubResource("SpriteFrames_33moh")
+autoplay = "default"
+frame_progress = 0.196205
+centered = false
+
+[node name="Rec" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 13.0
+offset_right = 32.0
+offset_bottom = 31.0
+texture = ExtResource("3_8egif")
+
+[node name="Label" type="Label" parent="Rec"]
+layout_mode = 0
+offset_top = 21.0
+offset_right = 18.0
+offset_bottom = 34.0
+text = "REC"
+label_settings = SubResource("LabelSettings_svt5y")
+
+[node name="Border" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_right = 426.0
+offset_bottom = 240.0
+texture = ExtResource("1_07iia")
+
+[node name="CamName" type="Label" parent="."]
+layout_mode = 0
+offset_left = 243.0
+offset_top = 70.0
+offset_right = 327.0
+offset_bottom = 90.0
+text = "<Cam Name>"
+label_settings = SubResource("LabelSettings_u41x4")
+
+[node name="Map" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -171.0
+offset_top = -159.0
+offset_right = 29.0001
+offset_bottom = 41.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("5_micpn")
+
+[node name="CamButtons" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 79.0
+offset_top = 44.0
+offset_right = 79.0
+offset_bottom = 44.0
+scale = Vector2(0.8, 0.8)
+
+[node name="1A" parent="CamButtons" instance=ExtResource("7_m6ydh")]
+layout_mode = 0
+offset_left = 273.0
+offset_top = 55.0
+offset_right = 307.0
+offset_bottom = 77.0
+button_pressed = true
+
+[node name="1B" parent="CamButtons" instance=ExtResource("7_m6ydh")]
+layout_mode = 0
+offset_left = 260.0
+offset_top = 86.0
+offset_right = 294.0
+offset_bottom = 108.0
+
+[node name="1C" parent="CamButtons" instance=ExtResource("7_m6ydh")]
+layout_mode = 0
+offset_left = 247.0
+offset_top = 121.0
+offset_right = 281.0
+offset_bottom = 143.0
+
+[node name="2A" parent="CamButtons" instance=ExtResource("7_m6ydh")]
+layout_mode = 0
+offset_left = 255.5
+offset_top = 159.75
+offset_right = 289.5
+offset_bottom = 181.75
+
+[node name="2B" parent="CamButtons" instance=ExtResource("7_m6ydh")]
+layout_mode = 0
+offset_left = 256.75
+offset_top = 209.75
+offset_right = 290.75
+offset_bottom = 231.75
+
+[node name="3" parent="CamButtons" instance=ExtResource("7_m6ydh")]
+layout_mode = 0
+offset_left = 226.25
+offset_top = 185.0
+offset_right = 260.25
+offset_bottom = 207.0
+
+[node name="4A" parent="CamButtons" instance=ExtResource("7_m6ydh")]
+layout_mode = 0
+offset_left = 328.5
+offset_top = 158.5
+offset_right = 362.5
+offset_bottom = 180.5
+
+[node name="4A2" parent="CamButtons" instance=ExtResource("7_m6ydh")]
+layout_mode = 0
+offset_left = 328.5
+offset_top = 209.75
+offset_right = 362.5
+offset_bottom = 231.75
+
+[node name="5" parent="CamButtons" instance=ExtResource("7_m6ydh")]
+layout_mode = 0
+offset_left = 205.0
+offset_top = 95.0
+offset_right = 239.0
+offset_bottom = 117.0
+
+[node name="6" parent="CamButtons" instance=ExtResource("7_m6ydh")]
+layout_mode = 0
+offset_left = 380.0
+offset_top = 163.0
+offset_right = 414.0
+offset_bottom = 185.0
+
+[node name="7" parent="CamButtons" instance=ExtResource("7_m6ydh")]
+layout_mode = 0
+offset_left = 383.0
+offset_top = 98.0
+offset_right = 417.0
+offset_bottom = 120.0
+
+[node name="8" parent="CamButtons" instance=ExtResource("7_m6ydh")]
+layout_mode = 0
+offset_left = 300.5
+offset_top = 183.0
+offset_right = 334.5
+offset_bottom = 205.0
+
+[node name="Cameras" parent="." instance=ExtResource("8_egy33")]

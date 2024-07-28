@@ -3,8 +3,8 @@
 [sub_resource type="AudioEffectReverb" id="AudioEffectReverb_lp2fn"]
 resource_name = "Reverb"
 room_size = 0.1
-hipass = 0.2
-wet = 0.15
+hipass = 0.25
+wet = 0.16
 
 [resource]
 bus/0/effect/0/effect = SubResource("AudioEffectReverb_lp2fn")

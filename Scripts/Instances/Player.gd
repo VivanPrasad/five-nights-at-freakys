@@ -7,11 +7,21 @@ extends CharacterBody3D
 @onready var flashlight: SpotLight3D = $Neck/Camera/Flashlight
 @onready var selector: RayCast3D = $Neck/Camera/Selector
 
+@onready var cam_animation: AnimationPlayer = $HUD/CamAnimation/AnimationPlayer
+@onready var cam_open: AudioStreamPlayer = $SFX/CamOpen
+@onready var cam_close: AudioStreamPlayer = $SFX/CamClose
+@onready var cam_switch: AudioStreamPlayer = $SFX/CamSwitch
+
 @onready var flashlight_sfx: AudioStreamPlayer3D = $Flashlight
 @onready var footstep_sfx: AudioStreamPlayer3D = $Footstep
 
+@onready var bass_amb: AudioStreamPlayer = $Ambience/BassAmb
+@onready var horror_amb: AudioStreamPlayer = $Ambience/HorrorAmb
+
+
 @onready var face: Sprite3D = $Neck/Face
 
+@onready var hud: CanvasLayer = $HUD
 @onready var office_hud: Control = $HUD/OfficeHUD
 @onready var camera_hud: Control = $HUD/CameraHUD
 @onready var selector_hud: Sprite2D = $HUD/SelectorHUD
@@ -20,6 +30,11 @@ extends CharacterBody3D
 @onready var power_hud: Label = $HUD/OfficeHUD/MarginContainer/VBoxContainer2/HBoxContainer/power
 @onready var hour_hud: Label = $HUD/OfficeHUD/MarginContainer/VBoxContainer/HBoxContainer/hour
 
+@onready var fade_in: AnimationPlayer = $HUD/Fade/FadeIn
+
+@onready var game : Game = $"/root/Game"
+
+const SPAWN_POSITION : Vector3 = Vector3(0,1.15,10)
 const WALK_SPEED : float = 2.5
 const RUN_SPEED : float = WALK_SPEED * 1.15
 const DECELERATION : float = 0.08
@@ -33,6 +48,7 @@ const TILT_STRENGTH : float = 0.8
 
 var selector_node : Node = null
 var in_office : bool = false
+var in_cams : bool = false
 
 # -----------------  Main Loops  -----------------
 
@@ -40,16 +56,11 @@ func _enter_tree() -> void:
 	set_multiplayer_authority(int(str(name)))
 func _ready() -> void:
 	validate_authority()
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	camera.current = is_multiplayer_authority()
-	flashlight.visible = camera.current
-	face.visible = not is_multiplayer_authority()
 
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority(): return
 	# --- Gravity ---
-	if not is_on_floor():
-		velocity += get_gravity() * delta
+	if not is_on_floor(): velocity += get_gravity() * delta
 	# --- Input Movement ---
 	handle_movement()
 	move_and_slide()
@@ -71,7 +82,7 @@ func _unhandled_input(event) -> void:
 			neck.rotate_y(-event.relative.x * 0.01)
 			camera.rotate_x(-event.relative.y * 0.01)
 			camera.rotation.x = clamp(camera.rotation.x, 
-				deg_to_rad(-65), deg_to_rad(65))
+				deg_to_rad(-70), deg_to_rad(70))
 	# Flashlight Toggle
 	if Input.is_action_just_pressed("flashlight") and not in_office:
 		flashlight.visible = !flashlight.visible
@@ -79,28 +90,41 @@ func _unhandled_input(event) -> void:
 	if flashlight.visible and in_office:
 		flashlight.hide()
 		flashlight_sfx.play()
+	if in_cams and not in_office:
+		toggle_cams()
 	# Selector Interaction
 	if Input.is_action_just_released("interact") and selector_node:
 		handle_interaction()
+	if Input.is_action_just_pressed("cams") and in_office:
+		toggle_cams()
 
 # ---------------------------------------
 
 ## Validate Multiplayer Authority 
 func validate_authority() -> void:
-	if not is_multiplayer_authority() and Game.is_solo:
-		set_physics_process(false)
-		set_process_unhandled_input(false)
-	else:
+	var authority : bool = is_multiplayer_authority()
+	if authority:
+		set_position(SPAWN_POSITION)
 		Game.player = self
+		fade_in.get_parent().show()
+		fade_in.play("FadeIn")
+		bass_amb.play()
+		horror_amb.play()
+	
+	hud.visible = authority
+	set_physics_process(authority)
+	set_process_unhandled_input(authority)
+	camera.current = authority
+	face.visible = not authority
+	Input.set_mouse_mode(2*int(authority))
 
-## Handle Player HUD
+## Handle Player HUD every frame
 func handle_hud(delta:float) -> void:
 	office_hud.modulate.a += 2 * delta * (float(in_office)-0.5)
 	office_hud.modulate.a = clamp(
 		office_hud.modulate.a,0.0,1.0) 
 	selector_hud.visible = bool(selector_node != null)
-	usage_hud.frame = Game.usage - 1
-	power_hud.text = str(int(floor(Game.power))) + "%"
+
 ## Handle Player Movement
 func handle_movement() -> void:
 	var input_dir := Input.get_vector(
@@ -111,6 +135,9 @@ func handle_movement() -> void:
 	var anim_speed : float = WALK_ANIM_SPEED
 	var is_running : bool = bool(
 		Input.get_action_strength("run"))
+	
+	direction *= int(not in_cams) # Check for in cams
+	
 	if direction:
 		# Moving
 		if is_running:
@@ -141,6 +168,7 @@ func handle_movement() -> void:
 		animation.speed_scale = IDLE_ANIM_SPEED
 		footstep_sfx.stop()
 
+
 func handle_interaction() -> void:
 	var interact_node = selector_node.get_parent().get_parent()
 	if interact_node is Door:
@@ -156,4 +184,26 @@ func handle_interaction() -> void:
 			interact_node.rpc("toggle_"+\
 				selector_node.name.to_lower())
 
+func toggle_cams() -> void:
+	if not Game.has_power: return
+	if not cam_animation.is_playing():
+		in_cams = !in_cams
+		if in_cams:
+			game.rpc("update_usage",game.usage + 1)
+			cam_open.play()
+			cam_close.stop()
+			cam_animation.play("OpenCam")
+			await cam_animation.animation_finished
+			camera.current = false
+			camera_hud.show()
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		else:
+			camera.current = true
+			game.rpc("update_usage",game.usage - 1)
+			cam_open.stop()
+			cam_close.play()
+			cam_animation.play_backwards("OpenCam")
+			camera_hud.hide()
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
 # ------------- Multiplayer Stuff -------------
