@@ -13,7 +13,7 @@ const CAM_NAMES = [
 	"East Hall","E. Hall Corner","Backstage",
 	"Kitchen","Restrooms","Office"]
 
-const STATIC_MIN : float = 0.25
+const STATIC_MIN : float = 0.23
 const STATIC_MAX : float = 1.0
 
 func _ready() -> void:
@@ -34,6 +34,7 @@ func _process(delta: float) -> void:
 	if static_bg.modulate.a > STATIC_MIN:
 		static_bg.modulate.a -= delta * 0.8
 	if visible:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		for camera : Camera3D in cameras.get_children():
 			camera.current = bool(camera.get_index() == (current_cam % cameras.get_child_count()))
 			if camera.get_index() == (current_cam % cameras.get_child_count()):

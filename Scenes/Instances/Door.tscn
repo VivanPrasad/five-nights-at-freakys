@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://ca4dfgcnwfdul"]
+[gd_scene load_steps=13 format=4 uid="uid://ca4dfgcnwfdul"]
 
 [ext_resource type="Script" path="res://Scripts/Instances/Door.gd" id="1_swxkd"]
 [ext_resource type="Material" uid="uid://bxxspqh8fa6ad" path="res://Assets/Models/Map/Materials/Door.tres" id="2_ixi80"]
@@ -130,6 +130,17 @@ _data = {
 "RESET": SubResource("Animation_t6x4t")
 }
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ceaeg"]
+properties/0/path = NodePath(".:is_open")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath("Pivot:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 0
+properties/2/path = NodePath("Pivot/MeshInstance3D/StaticBody3D/CollisionShape3D:disabled")
+properties/2/spawn = true
+properties/2/replication_mode = 0
+
 [node name="Door" type="Node3D"]
 script = ExtResource("1_swxkd")
 
@@ -178,3 +189,6 @@ unit_size = 3.0
 max_db = 0.0
 max_distance = 5.0
 bus = &"SFX"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_ceaeg")

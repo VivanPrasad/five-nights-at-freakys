@@ -54,6 +54,7 @@ var in_cams : bool = false
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(int(str(name)))
+
 func _ready() -> void:
 	validate_authority()
 
@@ -72,7 +73,7 @@ func _physics_process(delta: float) -> void:
 func _unhandled_input(event) -> void:
 	if not is_multiplayer_authority(): return
 	# Mouse Capture
-	if event is InputEventMouseButton:
+	if event is InputEventMouseButton and not in_cams:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	elif event.is_action_pressed("ui_cancel"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -189,7 +190,7 @@ func toggle_cams() -> void:
 	if not cam_animation.is_playing():
 		in_cams = !in_cams
 		if in_cams:
-			game.rpc("update_usage",game.usage + 1)
+			game.rpc("update_cam_usage",game.usage + 1)
 			cam_open.play()
 			cam_close.stop()
 			cam_animation.play("OpenCam")
@@ -199,7 +200,7 @@ func toggle_cams() -> void:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		else:
 			camera.current = true
-			game.rpc("update_usage",game.usage - 1)
+			game.rpc("update_cam_usage",game.usage - 1)
 			cam_open.stop()
 			cam_close.play()
 			cam_animation.play_backwards("OpenCam")

@@ -18,6 +18,9 @@ extends Node3D
 @onready var outage_sfx: AudioStreamPlayer3D = $Office/OutageSFX
 @onready var complete_animation: AnimationPlayer = $UI/CompleteScreen/AnimationPlayer
 
+@onready var office_amb: AudioStreamPlayer3D = $Office/OfficeAmb
+@onready var office_bulb: OmniLight3D = $Office/OfficeBulb
+@onready var office_light: OmniLight3D = $Office/OfficeLight
 
 const PLAYER_SCENE = preload("res://Scenes/Instances/Player.tscn")
 
@@ -43,12 +46,14 @@ static var doors : Array[bool] = [false,false]
 static var lights : Array[bool] = [false,false]
 static var power : float = 100.50 :
 	set(value): power = clamp(value,0.0,100.50)
-static var usage : int = 1
+static var usage : int = 1 :
+	set(value): usage = clamp(value,1,5)
 static var hour : int = 0 : #0 = 12AM 
 	set(value) : hour = clamp(value,0,6)
 
 static var has_power : bool = true # Office Power
-static var complete : bool = false
+static var complete : bool = false # Game Completion
+
 ## Initialize game
 func _ready() -> void:
 	setup_game()
@@ -90,7 +95,7 @@ func host_game() -> void:
 		push_error("Game::host_game() >> Unable to get gateway")
 		return
 	print("Server ready!")
-
+	
 	peer.create_server(PORT,MAX_PLAYERS,MAX_CHANNELS)
 	multiplayer.multiplayer_peer = peer
 	multiplayer.peer_connected.connect(add_player)
@@ -122,32 +127,12 @@ func _player_disconnected(node : Node):
 func _process(delta: float) -> void:
 	# Power Updates
 	if is_solo or is_host:
-		power -= (delta * clamp(usage,1,5) * 0.1)
+		power -= (delta * clamp(usage,1,5) * 0.09)
 	# Invariant Condition Updates
 	if int(floor(power)) < 1 and has_power:
-		var office_node := $Office
-		$Office/OfficeLight.hide()
-		$Office/OfficeBulb.hide()
-		$Office/OfficeAmb.hide()
-		$Office/OfficeAmb.stop()
-		player.horror_amb.stop()
-		player.bass_amb.stop()
-		outage_sfx.play()
-		usage = 1
-		for light in lights:
-			if light:
-				(office_node.get_child(0) as Wing).toggle_light()
-		for door in doors:
-			if door:
-				(office_node.get_child(0) as Wing).toggle_door()
-		if player.in_cams:
-			player.toggle_cams()
-		has_power = false
+		power_outage()
 	elif hour == 6 and not complete:
-		get_tree().paused = true
-		
-		complete_animation.play("Complete")
-		complete = true
+		game_complete()
 	# Multiplayer Updates
 	if is_solo: return
 	player_count = players.get_child_count()
@@ -162,9 +147,49 @@ func _on_office_exited(body : Node3D):
 		if body.is_multiplayer_authority():
 			body.in_office = false
 
+# ----- Game Events -----
+
+func power_outage() -> void:
+	var office_node := $Office
+	office_light.hide()
+	office_bulb.hide()
+	office_amb.stop()
+	player.horror_amb.stop()
+	player.bass_amb.stop()
+	outage_sfx.play()
+	usage = 1
+	for i in [0,1]:
+		var wing : Wing = office_node.get_child(i)
+		wing.light_sfx.stop()
+		wing.light_animation.stop()
+		wing.door_animation.stop()
+		if doors[i]:
+			wing.door_animation.play_backwards("Door"+str(i))
+			wing.door_sfx.play()
+	if player.in_cams:
+		player.cam_animation.stop()
+		player.cam_animation.play_backwards("OpenCam")
+		player.cam_open.stop()
+		player.cam_close.play()
+		player.in_cams = false
+		player.camera_hud.hide()
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		player.camera.current = true
+	has_power = false
+
+func game_complete() -> void:
+	get_tree().paused = true
+	complete_animation.play("Complete")
+	complete = true
+
 # ------------- Multiplayer Stuff -------------
 
 @rpc("any_peer","call_local")
+static func update_cam_usage(new_value:int) -> void:
+	usage = new_value
+	player.usage_hud.frame = clamp(usage,1,5) - 1
+
+@rpc("authority","call_local")
 static func update_usage(new_value:int) -> void:
 	usage = new_value
 	player.usage_hud.frame = clamp(usage,1,5) - 1
@@ -181,10 +206,17 @@ static func update_hour(new_value:int) -> void:
 
 func _on_power_tick_timeout() -> void:
 	rpc("update_power",power)
+
 func _on_hour_tick_timeout() -> void:
 	hour += 1
 	rpc("update_hour",hour)
 	if hour < 6: hour_tick.start()
 
 func return_to_menu() -> void:
+	get_tree().paused = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	power = 100
+	hour = 0
+	usage = 1
+	peer.close()
 	get_tree().change_scene_to_file("res://Scenes/Menus/Title.tscn")

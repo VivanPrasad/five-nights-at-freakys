@@ -1,5 +1,6 @@
 extends Node3D
 class_name Door
+
 @onready var animation_player : AnimationPlayer = $AnimationPlayer
 @onready var open_sfx: AudioStreamPlayer3D = $Open
 @onready var close_sfx: AudioStreamPlayer3D = $Close
