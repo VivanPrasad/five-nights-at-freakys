@@ -319,7 +319,7 @@ font_size = 32
 
 [sub_resource type="Animation" id="Animation_eo7q8"]
 resource_name = "Complete"
-length = 15.0
+length = 18.0
 step = 0.2
 tracks/0/type = "method"
 tracks/0/imported = false
@@ -973,7 +973,7 @@ bus = &"SFX"
 
 [node name="Cheer" type="AudioStreamPlayer" parent="UI/CompleteScreen"]
 stream = ExtResource("19_0j75v")
-volume_db = -16.0
+volume_db = -12.0
 mix_target = 1
 bus = &"SFX"
 
@@ -988,12 +988,11 @@ replication_config = SubResource("SceneReplicationConfig_nqiq4")
 
 [node name="HourTick" type="Timer" parent="."]
 process_mode = 1
-wait_time = 90.0
 one_shot = true
 
 [node name="PowerTick" type="Timer" parent="."]
 process_mode = 1
-wait_time = 0.5
+wait_time = 0.8
 
 [connection signal="despawned" from="Spawner" to="." method="_player_disconnected"]
 [connection signal="timeout" from="HourTick" to="." method="_on_hour_tick_timeout"]

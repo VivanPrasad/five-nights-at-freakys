@@ -218,5 +218,11 @@ func return_to_menu() -> void:
 	power = 100
 	hour = 0
 	usage = 1
+	complete = false
+	has_power = true
+	doors = [false,false]
+	lights = [false,false]
+	for d : Door in $Doors.get_children():
+		d.is_open = false
 	peer.close()
 	get_tree().change_scene_to_file("res://Scenes/Menus/Title.tscn")

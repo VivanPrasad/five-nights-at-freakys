@@ -12,8 +12,6 @@ extends Control
 @onready var join_button: Button = $Menu/Buttons/join
 @onready var line_edit: LineEdit = $Menu/Buttons/join/LineEdit
 
-const GAME : PackedScene = preload("res://Scenes/Game.tscn")
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	loading.hide()
@@ -46,21 +44,21 @@ func _on_button_pressed(button : Button) -> void:
 	match button.name.to_lower():
 		"solo":
 			await play_intro()
-			var scene : Game = GAME.instantiate()
+			var scene : Game = load("res://Scenes/Game.tscn").instantiate()
 			scene.is_solo = true
 			var packed = PackedScene.new()
 			packed.pack(scene)
 			get_tree().change_scene_to_packed(packed)
 		"host":
 			await play_intro()
-			var scene : Game = GAME.instantiate()
+			var scene : Game = load("res://Scenes/Game.tscn").instantiate()
 			scene.is_host = true
 			var packed = PackedScene.new()
 			packed.pack(scene)
 			get_tree().change_scene_to_packed(packed)
 		"join":
 			await play_intro()
-			var scene : Game = GAME.instantiate()
+			var scene : Game = load("res://Scenes/Game.tscn").instantiate()
 			scene.ip = Multi.get_ip_from_code(line_edit.text)
 			var packed = PackedScene.new()
 			packed.pack(scene)
