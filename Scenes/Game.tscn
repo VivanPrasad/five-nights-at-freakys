@@ -988,6 +988,7 @@ replication_config = SubResource("SceneReplicationConfig_nqiq4")
 
 [node name="HourTick" type="Timer" parent="."]
 process_mode = 1
+wait_time = 90.0
 one_shot = true
 
 [node name="PowerTick" type="Timer" parent="."]
