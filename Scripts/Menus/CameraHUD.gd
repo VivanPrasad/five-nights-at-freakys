@@ -45,10 +45,5 @@ func _process(delta: float) -> void:
 			if camera.get_index() == (current_cam % cameras.get_child_count()):
 				camera.rotation.y += 0.0008*sin((Time.get_ticks_msec()) * 0.0005)
 
-
 func _on_rec_timer_timeout() -> void:
 	rec_label.visible = !rec_label.visible
-
-
-func _on_cam_down_mouse_entered() -> void:
-	Game.player.toggle_cams()

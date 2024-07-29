@@ -247,21 +247,4 @@ offset_bottom = 205.0
 
 [node name="Cameras" parent="." instance=ExtResource("8_egy33")]
 
-[node name="CamDown" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -53.0
-offset_top = -23.0
-offset_right = 53.0
-offset_bottom = -2.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_fonts/font = ExtResource("4_bcwp6")
-text = "\\/ \\/ \\/"
-
 [connection signal="timeout" from="Rec/RecTimer" to="." method="_on_rec_timer_timeout"]
-[connection signal="mouse_entered" from="CamDown" to="." method="_on_cam_down_mouse_entered"]
