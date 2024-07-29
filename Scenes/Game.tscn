@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=4 uid="uid://il5detmgx7ah"]
+[gd_scene load_steps=38 format=4 uid="uid://il5detmgx7ah"]
 
 [ext_resource type="Script" path="res://Scripts/Game.gd" id="1_wp3rc"]
 [ext_resource type="AudioStream" uid="uid://dx1ifytjc8rfq" path="res://Assets/Audio/Ambience/office.ogg" id="2_62orv"]
@@ -15,10 +15,6 @@
 [ext_resource type="Texture2D" uid="uid://cxi5hxbjqlabc" path="res://Assets/Models/Map/Textures/officedoor.png" id="14_rylup"]
 [ext_resource type="PackedScene" uid="uid://lv3on8rqgaxi" path="res://Assets/Models/Map/Map.glb" id="15_0kehg"]
 [ext_resource type="Texture2D" uid="uid://bst06f5kcpbqt" path="res://Assets/Models/Map/Textures/officedoor_rough.png" id="15_k2bsr"]
-[ext_resource type="AudioStream" uid="uid://by7qyau4brp7u" path="res://Assets/Audio/SFX/outage.ogg" id="16_wsk1y"]
-[ext_resource type="PackedScene" uid="uid://bar3usb5yfym4" path="res://Scenes/Instances/Cameras.tscn" id="17_88p7x"]
-[ext_resource type="AudioStream" uid="uid://cv8apmkehs70v" path="res://Assets/Audio/SFX/chimes.ogg" id="18_qql6f"]
-[ext_resource type="AudioStream" uid="uid://b10o7wo7lmgqr" path="res://Assets/Audio/SFX/cheer.ogg" id="19_0j75v"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_f7qx5"]
 size = Vector3(0.05, 0.25, 0.25)
@@ -239,7 +235,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_ag6fn")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rj38d"]
-size = Vector3(4.50842, 2.23926, 4.65021)
+size = Vector3(4.78491, 2.23926, 3.80351)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5c0mg"]
 resource_name = "Chica"
@@ -293,181 +289,19 @@ bind/4/pose = Transform3D(1, 1.58151e-06, -3.07512e-09, 3.07488e-09, -1.56462e-0
 
 [sub_resource type="Environment" id="Environment_jp3n5"]
 background_mode = 1
-background_color = Color(0.0470588, 0, 0.141176, 1)
+background_color = Color(0.0313726, 0.00784314, 0.0705882, 1)
+reflected_light_source = 1
 tonemap_mode = 1
-ssil_enabled = true
 glow_enabled = true
 glow_normalized = true
-glow_intensity = 2.5
+glow_intensity = 2.7
 glow_bloom = 1.0
 glow_blend_mode = 0
 fog_enabled = true
 fog_light_color = Color(0, 0, 0, 1)
-fog_light_energy = 0.0
 fog_density = 1.0
-volumetric_fog_density = 0.99
-
-[sub_resource type="LabelSettings" id="LabelSettings_1d877"]
-font = ExtResource("4_nrxcs")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyet4"]
-bg_color = Color(0, 0, 0, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_ompp7"]
-font = ExtResource("4_nrxcs")
-font_size = 32
-
-[sub_resource type="Animation" id="Animation_eo7q8"]
-resource_name = "Complete"
-length = 18.0
-step = 0.2
-tracks/0/type = "method"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Chimes")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [0.0],
-"method": &"play"
-}]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("ColorRect/Panel/Label2:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 3, 7),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(39.5, 2), Vector2(39.5, 2), Vector2(39.5, -27)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("ColorRect/Panel:modulate")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 12, 14.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/5/type = "method"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("../..")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(15),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"return_to_menu"
-}]
-}
-tracks/6/type = "method"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("Cheer")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(7),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [0.0],
-"method": &"play"
-}]
-}
-
-[sub_resource type="Animation" id="Animation_kkwal"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("ColorRect/Panel/Label2:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(39.5, 2)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("ColorRect/Panel:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_scijx"]
-_data = {
-"Complete": SubResource("Animation_eo7q8"),
-"RESET": SubResource("Animation_kkwal")
-}
+volumetric_fog_density = 0.9
+volumetric_fog_albedo = Color(0, 0, 0, 1)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_nqiq4"]
 properties/0/path = NodePath(".:doors")
@@ -498,6 +332,7 @@ metadata/_edit_lock_ = true
 
 [node name="Entities" type="Node3D" parent="."]
 process_mode = 1
+metadata/_edit_lock_ = true
 
 [node name="Players" type="Node3D" parent="Entities"]
 
@@ -514,6 +349,7 @@ transform = Transform3D(0.0766044, 0, 0.0642788, 0, 0.1, 0, -0.0642788, 0, 0.076
 
 [node name="Doors" type="Node3D" parent="."]
 process_mode = 1
+metadata/_edit_lock_ = true
 
 [node name="PartsDoor" parent="Doors" instance=ExtResource("2_an0jd")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -9.57872, 0.993454, -6.9021)
@@ -535,6 +371,7 @@ transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, -6.317
 
 [node name="Office" type="Node3D" parent="."]
 process_mode = 1
+metadata/_edit_lock_ = true
 
 [node name="LeftWing" type="Node3D" parent="Office"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.24303, 0, 10.4132)
@@ -592,11 +429,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0715943, 0.0324707)
 shape = SubResource("BoxShape3D_y3oph")
 
 [node name="LightL" type="OmniLight3D" parent="Office/LeftWing"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.07922, 2.84439, -1.39518)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.98755, 2.84439, -1.56908)
 visible = false
-light_energy = 5.0
-omni_range = 3.8
-omni_attenuation = 1.5
+light_color = Color(1, 0.887631, 0.865135, 1)
+light_energy = 15.0
+omni_range = 3.25
 
 [node name="DoorSFX" type="AudioStreamPlayer3D" parent="Office/LeftWing"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.357455, 1.3186, -0.120735)
@@ -687,11 +524,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0715943, 0.0324707)
 shape = SubResource("BoxShape3D_y3oph")
 
 [node name="LightR" type="OmniLight3D" parent="Office/RightWing"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.11777, 2.84941, 1.26007)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.95162, 2.84941, 1.37545)
 visible = false
-light_energy = 5.0
-omni_range = 3.8
-omni_attenuation = 1.5
+light_color = Color(1, 0.887631, 0.865135, 1)
+light_energy = 15.0
+omni_range = 3.25
 
 [node name="DoorSFX" type="AudioStreamPlayer3D" parent="Office/RightWing"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.274396, 1.30368, -0.0910339)
@@ -732,24 +569,27 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Office/OfficeArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15387, -0.198608, -0.700226)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15387, -0.198608, -0.708745)
 shape = SubResource("BoxShape3D_rj38d")
 
 [node name="OfficeLight" type="OmniLight3D" parent="Office"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.57884, 9.83344)
 light_color = Color(1, 0.613659, 0.222823, 1)
-light_energy = 2.0
+light_energy = 3.0
+light_bake_mode = 1
 omni_range = 3.2
 
 [node name="OfficeBulb" type="OmniLight3D" parent="Office"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0067644, 2.56199, 9.83127)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0067644, 2.56199, 9.71598)
 light_color = Color(1, 0.613659, 0.222823, 1)
+light_energy = 0.4
 light_volumetric_fog_energy = 0.0
-shadow_enabled = true
+light_bake_mode = 1
+omni_range = 1.0
 omni_attenuation = 6.0
 
 [node name="OfficeAmb" type="AudioStreamPlayer3D" parent="Office"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.10619, 1.23986, 8.8275)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.10619, 1.23986, 9.60536)
 stream = ExtResource("2_62orv")
 volume_db = -10.0
 unit_size = 15.0
@@ -809,14 +649,6 @@ skin = SubResource("Skin_6hxrv")
 "blend_shapes/Eyes Surprised" = 0.0
 blend_shapes/Pupils = 0.0
 
-[node name="OutageSFX" type="AudioStreamPlayer3D" parent="Office"]
-stream = ExtResource("16_wsk1y")
-volume_db = -5.0
-unit_size = 12.0
-max_db = 0.0
-
-[node name="Cameras" parent="." instance=ExtResource("17_88p7x")]
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 process_mode = 1
 environment = SubResource("Environment_jp3n5")
@@ -830,157 +662,6 @@ spawn_limit = 5
 [node name="UI" type="CanvasLayer" parent="."]
 process_mode = 1
 layer = 2
-
-[node name="MultiplayerUI" type="MarginContainer" parent="UI"]
-visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_vertical = 3
-mouse_filter = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/MultiplayerUI"]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-mouse_filter = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/MultiplayerUI/VBoxContainer"]
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Label" type="Label" parent="UI/MultiplayerUI/VBoxContainer/HBoxContainer"]
-modulate = Color(1, 1, 1, 0.219608)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-text = "Code:"
-label_settings = SubResource("LabelSettings_1d877")
-
-[node name="CodeLabel" type="Label" parent="UI/MultiplayerUI/VBoxContainer/HBoxContainer"]
-modulate = Color(1, 1, 1, 0.219608)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-text = "<Code>"
-label_settings = SubResource("LabelSettings_1d877")
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="UI/MultiplayerUI/VBoxContainer"]
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Label" type="Label" parent="UI/MultiplayerUI/VBoxContainer/HBoxContainer2"]
-modulate = Color(1, 1, 1, 0.219608)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-text = "Players:"
-label_settings = SubResource("LabelSettings_1d877")
-
-[node name="PlayerCountLabel" type="Label" parent="UI/MultiplayerUI/VBoxContainer/HBoxContainer2"]
-modulate = Color(1, 1, 1, 0.219608)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-text = "1/4"
-label_settings = SubResource("LabelSettings_1d877")
-
-[node name="CompleteScreen" type="Control" parent="UI"]
-process_mode = 3
-visible = false
-modulate = Color(1, 1, 1, 0)
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="ColorRect" type="ColorRect" parent="UI/CompleteScreen"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
-[node name="Panel" type="Panel" parent="UI/CompleteScreen/ColorRect"]
-clip_children = 1
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -60.0
-offset_top = -20.0
-offset_right = 60.0
-offset_bottom = 9.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_hyet4")
-
-[node name="Label" type="Label" parent="UI/CompleteScreen/ColorRect/Panel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -2.0
-offset_top = -13.0
-offset_right = 26.0
-offset_bottom = 13.0
-grow_horizontal = 2
-grow_vertical = 2
-text = " AM"
-label_settings = SubResource("LabelSettings_ompp7")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="UI/CompleteScreen/ColorRect/Panel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.5
-offset_top = -12.5
-offset_right = -3.5
-offset_bottom = 42.5
-grow_horizontal = 2
-grow_vertical = 2
-text = " 5
-6"
-label_settings = SubResource("LabelSettings_ompp7")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Chimes" type="AudioStreamPlayer" parent="UI/CompleteScreen"]
-stream = ExtResource("18_qql6f")
-volume_db = -10.0
-mix_target = 1
-bus = &"SFX"
-
-[node name="Cheer" type="AudioStreamPlayer" parent="UI/CompleteScreen"]
-stream = ExtResource("19_0j75v")
-volume_db = -12.0
-mix_target = 1
-bus = &"SFX"
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/CompleteScreen"]
-libraries = {
-"": SubResource("AnimationLibrary_scijx")
-}
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 process_mode = 1

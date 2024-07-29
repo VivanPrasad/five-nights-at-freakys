@@ -115,6 +115,10 @@ offset_bottom = 34.0
 text = "REC"
 label_settings = SubResource("LabelSettings_svt5y")
 
+[node name="RecTimer" type="Timer" parent="Rec"]
+wait_time = 2.5
+autostart = true
+
 [node name="Border" type="TextureRect" parent="."]
 texture_filter = 1
 layout_mode = 0
@@ -206,7 +210,7 @@ offset_top = 158.5
 offset_right = 362.5
 offset_bottom = 180.5
 
-[node name="4A2" parent="CamButtons" instance=ExtResource("7_m6ydh")]
+[node name="4B" parent="CamButtons" instance=ExtResource("7_m6ydh")]
 layout_mode = 0
 offset_left = 328.5
 offset_top = 209.75
@@ -242,3 +246,22 @@ offset_right = 334.5
 offset_bottom = 205.0
 
 [node name="Cameras" parent="." instance=ExtResource("8_egy33")]
+
+[node name="CamDown" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -53.0
+offset_top = -23.0
+offset_right = 53.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("4_bcwp6")
+text = "\\/ \\/ \\/"
+
+[connection signal="timeout" from="Rec/RecTimer" to="." method="_on_rec_timer_timeout"]
+[connection signal="mouse_entered" from="CamDown" to="." method="_on_cam_down_mouse_entered"]

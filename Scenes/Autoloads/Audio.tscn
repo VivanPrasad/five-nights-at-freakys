@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://bmyl5s0py2tte"]
+
+[ext_resource type="Script" path="res://Scripts/Autoloads/Audio.gd" id="1_jjych"]
+[ext_resource type="AudioStream" uid="uid://by7qyau4brp7u" path="res://Assets/Audio/SFX/outage.ogg" id="2_d2rld"]
+[ext_resource type="AudioStream" uid="uid://hnsjfk2fbb3j" path="res://Assets/Audio/SFX/cam_switch.ogg" id="2_jbb6r"]
+[ext_resource type="AudioStream" uid="uid://o2htwjg5lctp" path="res://Assets/Audio/SFX/menu_static.ogg" id="3_w1e1b"]
+[ext_resource type="AudioStream" uid="uid://ds7phowdqcoxt" path="res://Assets/Audio/Music/title.ogg" id="4_fg781"]
+
+[node name="Audio" type="Node3D"]
+process_mode = 3
+script = ExtResource("1_jjych")
+
+[node name="LocalAmbience" type="Node3D" parent="."]
+
+[node name="LocalSFX" type="Node3D" parent="."]
+
+[node name="outage" type="AudioStreamPlayer3D" parent="LocalSFX"]
+stream = ExtResource("2_d2rld")
+volume_db = -5.0
+unit_size = 12.0
+max_db = 0.0
+
+[node name="GlobalAmbience" type="Node" parent="."]
+
+[node name="GlobalSFX" type="Node" parent="."]
+
+[node name="menu_static" type="AudioStreamPlayer" parent="GlobalSFX"]
+stream = ExtResource("3_w1e1b")
+mix_target = 1
+bus = &"SFX"
+
+[node name="cam_switch" type="AudioStreamPlayer" parent="GlobalSFX"]
+stream = ExtResource("2_jbb6r")
+mix_target = 1
+
+[node name="Music" type="Node" parent="."]
+
+[node name="title" type="AudioStreamPlayer" parent="Music"]
+stream = ExtResource("4_fg781")
+volume_db = -80.0
+pitch_scale = 0.4
+mix_target = 1
+bus = &"Music"

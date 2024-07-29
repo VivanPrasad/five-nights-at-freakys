@@ -1,0 +1,96 @@
+[gd_scene load_steps=6 format=3 uid="uid://b3807jla1epkg"]
+
+[ext_resource type="Texture2D" uid="uid://brsultpsu7go6" path="res://Assets/UI/newsletter.png" id="1_bxis4"]
+[ext_resource type="Script" path="res://Scripts/UI/IntroScene.gd" id="1_ujyvq"]
+[ext_resource type="FontFile" uid="uid://b6kcxtofexiyt" path="res://Assets/Fonts/fnaf-font.ttf" id="2_6xdjk"]
+[ext_resource type="Texture2D" uid="uid://cnl5kq1nn1rcs" path="res://Assets/UI/Title/loading.png" id="3_y4uu6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ev6ma"]
+font = ExtResource("2_6xdjk")
+
+[node name="IntroScene" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ujyvq")
+
+[node name="Newsletter" type="TextureRect" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_right = 426.0
+offset_bottom = 240.0
+mouse_filter = 0
+texture = ExtResource("1_bxis4")
+
+[node name="continue" type="Button" parent="Newsletter"]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -41.0
+offset_top = -31.0
+offset_right = 41.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+focus_mode = 0
+theme_override_fonts/font = ExtResource("2_6xdjk")
+theme_override_font_sizes/font_size = 16
+text = "CONTINUE"
+
+[node name="BlackBG" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Date" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.0
+offset_top = -14.5
+offset_right = 22.0
+offset_bottom = 14.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "12:00 AM
+1st Night"
+label_settings = SubResource("LabelSettings_ev6ma")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Loading" type="TextureRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_top = -40.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("3_y4uu6")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

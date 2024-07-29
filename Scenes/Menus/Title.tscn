@@ -1,15 +1,11 @@
-[gd_scene load_steps=21 format=3 uid="uid://dxmjadcj5b5te"]
+[gd_scene load_steps=16 format=3 uid="uid://dxmjadcj5b5te"]
 
 [ext_resource type="Script" path="res://Scripts/Menus/Title.gd" id="1_b2vqv"]
-[ext_resource type="AudioStream" uid="uid://hnsjfk2fbb3j" path="res://Assets/Audio/SFX/cam_switch.ogg" id="2_i872d"]
-[ext_resource type="Texture2D" uid="uid://dmsggskg33glf" path="res://Assets/UI/title.png" id="2_rf1yv"]
-[ext_resource type="AudioStream" uid="uid://o2htwjg5lctp" path="res://Assets/Audio/SFX/menu_static.ogg" id="4_0wa6g"]
-[ext_resource type="AudioStream" uid="uid://ds7phowdqcoxt" path="res://Assets/Audio/Music/title.ogg" id="4_38he8"]
+[ext_resource type="Texture2D" uid="uid://dl04jnvc35hpf" path="res://Assets/UI/Title/title_text.png" id="4_qrr76"]
+[ext_resource type="PackedScene" uid="uid://b3807jla1epkg" path="res://Scenes/UI/IntroScene.tscn" id="5_sjtyy"]
 [ext_resource type="Texture2D" uid="uid://c3v1stcb1d3nw" path="res://Assets/UI/static.png" id="6_wc35x"]
 [ext_resource type="Texture2D" uid="uid://dnchophtl5pvg" path="res://Assets/UI/title_bg.png" id="7_8rb8v"]
-[ext_resource type="Texture2D" uid="uid://brsultpsu7go6" path="res://Assets/UI/newsletter.png" id="7_ms77f"]
 [ext_resource type="FontFile" uid="uid://b6kcxtofexiyt" path="res://Assets/Fonts/fnaf-font.ttf" id="8_d66cv"]
-[ext_resource type="Texture2D" uid="uid://cnl5kq1nn1rcs" path="res://Assets/UI/Title/loading.png" id="9_ewd51"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gi47j"]
 atlas = ExtResource("6_wc35x")
@@ -75,10 +71,8 @@ animations = [{
 "speed": 30.0
 }]
 
-[sub_resource type="LabelSettings" id="LabelSettings_ev6ma"]
-font = ExtResource("8_d66cv")
-
 [node name="Title" type="Control"]
+process_mode = 3
 texture_filter = 3
 layout_mode = 3
 anchors_preset = 15
@@ -88,39 +82,14 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_b2vqv")
 
-[node name="SwitchSFX" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_i872d")
-volume_db = -10.0
-mix_target = 1
-
-[node name="StaticSFX" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_0wa6g")
-volume_db = -18.0
-autoplay = true
-mix_target = 1
-bus = &"SFX"
-
-[node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_38he8")
-volume_db = -80.0
-pitch_scale = 0.4
-autoplay = true
-mix_target = 1
-bus = &"Music"
-
 [node name="TitleBG" type="Sprite2D" parent="."]
+process_mode = 1
 texture_filter = 3
 texture = ExtResource("7_8rb8v")
 centered = false
 
-[node name="StaticBG" type="AnimatedSprite2D" parent="."]
-modulate = Color(1, 1, 1, 0.247059)
-sprite_frames = SubResource("SpriteFrames_81sst")
-autoplay = "default"
-frame_progress = 0.618027
-centered = false
-
 [node name="Menu" type="MarginContainer" parent="."]
+process_mode = 1
 modulate = Color(0.8, 0.8, 0.8, 1)
 layout_mode = 1
 anchors_preset = 15
@@ -128,17 +97,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 32
-theme_override_constants/margin_top = 24
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 22
 theme_override_constants/margin_right = 32
-theme_override_constants/margin_bottom = 32
+theme_override_constants/margin_bottom = 22
 
 [node name="Logo" type="TextureRect" parent="Menu"]
-custom_minimum_size = Vector2(180, 80)
+custom_minimum_size = Vector2(140, 80)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-texture = ExtResource("2_rf1yv")
+texture = ExtResource("4_qrr76")
 expand_mode = 1
 stretch_mode = 5
 
@@ -148,57 +117,38 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 theme_override_constants/separation = -8
+alignment = 2
 
 [node name="solo" type="Button" parent="Menu/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 0
+theme_override_colors/font_disabled_color = Color(0.273438, 0.273438, 0.273438, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(0.894531, 0.894531, 0.894531, 1)
+theme_override_colors/font_pressed_color = Color(0.601563, 0.601563, 0.601563, 1)
+theme_override_colors/font_color = Color(0.746094, 0.746094, 0.746094, 1)
 theme_override_font_sizes/font_size = 16
 text = "SOLO"
 flat = true
 
 [node name="multi" type="Button" parent="Menu/Buttons"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 0
+theme_override_colors/font_disabled_color = Color(0.273438, 0.273438, 0.273438, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(0.894531, 0.894531, 0.894531, 1)
+theme_override_colors/font_pressed_color = Color(0.601563, 0.601563, 0.601563, 1)
+theme_override_colors/font_color = Color(0.746094, 0.746094, 0.746094, 1)
 theme_override_font_sizes/font_size = 24
-text = "MULTIPLAYER"
-flat = true
-
-[node name="host" type="Button" parent="Menu/Buttons"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(0.894531, 0.894531, 0.894531, 1)
-theme_override_font_sizes/font_size = 16
-text = "HOST"
-flat = true
-
-[node name="join" type="Button" parent="Menu/Buttons"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(0.894531, 0.894531, 0.894531, 1)
-theme_override_font_sizes/font_size = 16
 disabled = true
-text = "JOIN"
+text = "MULTI"
 flat = true
-
-[node name="LineEdit" type="LineEdit" parent="Menu/Buttons/join"]
-layout_mode = 0
-offset_left = 41.0
-offset_top = -1.0
-offset_right = 111.0
-offset_bottom = 27.0
 
 [node name="settings" type="Button" parent="Menu/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 0
+theme_override_colors/font_disabled_color = Color(0.273438, 0.273438, 0.273438, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(0.894531, 0.894531, 0.894531, 1)
+theme_override_colors/font_pressed_color = Color(0.601563, 0.601563, 0.601563, 1)
+theme_override_colors/font_color = Color(0.746094, 0.746094, 0.746094, 1)
 theme_override_font_sizes/font_size = 16
 disabled = true
 text = "SETTINGS"
@@ -207,84 +157,56 @@ flat = true
 [node name="quit" type="Button" parent="Menu/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 0
+theme_override_colors/font_disabled_color = Color(0.273438, 0.273438, 0.273438, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(0.894531, 0.894531, 0.894531, 1)
+theme_override_colors/font_pressed_color = Color(0.601563, 0.601563, 0.601563, 1)
+theme_override_colors/font_color = Color(0.746094, 0.746094, 0.746094, 1)
 theme_override_font_sizes/font_size = 16
 text = "QUIT"
 flat = true
 
-[node name="Newsletter" type="TextureRect" parent="."]
-visible = false
-modulate = Color(1, 1, 1, 0)
-layout_mode = 0
-offset_right = 426.0
-offset_bottom = 240.0
-mouse_filter = 0
-texture = ExtResource("7_ms77f")
-
-[node name="continue" type="Button" parent="Newsletter"]
-visible = false
+[node name="Version" type="Label" parent="."]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
+anchors_preset = 2
 anchor_top = 1.0
-anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -41.0
-offset_top = -31.0
-offset_right = 41.0
-offset_bottom = -10.0
-grow_horizontal = 2
+offset_left = 4.0
+offset_top = -15.0
+offset_right = 25.0
+offset_bottom = -2.0
 grow_vertical = 0
-focus_mode = 0
+theme_override_colors/font_color = Color(0.478431, 0.478431, 0.478431, 1)
 theme_override_fonts/font = ExtResource("8_d66cv")
-theme_override_font_sizes/font_size = 16
-text = "CONTINUE"
+text = "v 1.0"
 
-[node name="BlackBG" type="ColorRect" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
-[node name="Date" type="Label" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -22.0
-offset_top = -14.5
-offset_right = 22.0
-offset_bottom = 14.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "12:00 AM
-1st Night"
-label_settings = SubResource("LabelSettings_ev6ma")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Loading" type="TextureRect" parent="."]
+[node name="Copyright" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -32.0
-offset_top = -40.0
-offset_right = -8.0
-offset_bottom = -8.0
+offset_left = -133.0
+offset_top = -31.0
+offset_right = -4.0
+offset_bottom = -2.0
 grow_horizontal = 0
 grow_vertical = 0
-mouse_filter = 2
-texture = ExtResource("9_ewd51")
+theme_override_colors/font_color = Color(0.478431, 0.478431, 0.478431, 1)
+theme_override_fonts/font = ExtResource("8_d66cv")
+text = "Made by Vidran Games
+Inspired by Scott Cawthon"
+horizontal_alignment = 2
 
-[connection signal="text_changed" from="Menu/Buttons/join/LineEdit" to="." method="_on_line_edit_text_changed"]
+[node name="StaticBG" type="AnimatedSprite2D" parent="."]
+process_mode = 1
+modulate = Color(1, 1, 1, 0.247059)
+sprite_frames = SubResource("SpriteFrames_81sst")
+autoplay = "default"
+frame = 2
+frame_progress = 0.641318
+centered = false
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="IntroScene" parent="UI" instance=ExtResource("5_sjtyy")]

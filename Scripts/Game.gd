@@ -5,41 +5,25 @@ extends Node3D
 @onready var players: Node3D = $Entities/Players
 @onready var spawner: MultiplayerSpawner = $Spawner
 
-@onready var multiplayer_ui: MarginContainer = $UI/MultiplayerUI
+#@onready var multiplayer_ui: MarginContainer = $UI/MultiplayerUI
 
 @onready var hour_tick: Timer = $HourTick
 @onready var power_tick: Timer = $PowerTick
 
-@onready var code_label: Label = $UI/MultiplayerUI/VBoxContainer/HBoxContainer/CodeLabel
-@onready var player_count_label: Label = $UI/MultiplayerUI/VBoxContainer/HBoxContainer2/PlayerCountLabel
+#@onready var code_label: Label = $UI/MultiplayerUI/VBoxContainer/HBoxContainer/CodeLabel
+#@onready var player_count_label: Label = $UI/MultiplayerUI/VBoxContainer/HBoxContainer2/PlayerCountLabel
+@onready var ui: CanvasLayer = $UI
 
 @onready var office_area: Area3D = $Office/OfficeArea
-
-@onready var outage_sfx: AudioStreamPlayer3D = $Office/OutageSFX
-@onready var complete_animation: AnimationPlayer = $UI/CompleteScreen/AnimationPlayer
 
 @onready var office_amb: AudioStreamPlayer3D = $Office/OfficeAmb
 @onready var office_bulb: OmniLight3D = $Office/OfficeBulb
 @onready var office_light: OmniLight3D = $Office/OfficeLight
 
 const PLAYER_SCENE = preload("res://Scenes/Instances/Player.tscn")
-
-static var player_count : int = 0
-static var player : Player ## The local player
-
-const PORT : int = 9999
-
-static var is_host : bool = false
-static var is_solo : bool = false
-## IP of multiplayer game
-static var peer : ENetMultiplayerPeer = ENetMultiplayerPeer.new()
-
-static var ip : String ## IP of multiplayer game
-
-const MAX_PLAYERS : int = 5 ## Max players in-game
-const MAX_CHANNELS : int = 10
-
-# Game Data
+const MULTI_HUD = preload("res://Scenes/Menus/MultiHUD.tscn")
+const COMPLETE_SCENE = preload("res://Scenes/UI/CompleteScene.tscn")
+# --- Game Data ---
 
 # [Left State, Right State]
 static var doors : Array[bool] = [false,false]
@@ -54,62 +38,30 @@ static var hour : int = 0 : #0 = 12AM
 static var has_power : bool = true # Office Power
 static var complete : bool = false # Game Completion
 
+static var player : Player ## The local player
+
+var player_count : int = 0 ## Player Count
+
 ## Initialize game
 func _ready() -> void:
-	setup_game()
+	connect_office()
 	# --- Solo ---
-	if is_solo:
+	if not Multi.is_multi or Multi.is_host:
 		hour_tick.start()
 		power_tick.start()
 		add_player()
 		return
 	# --- Multiplayer ---
-	if is_host:
-		host_game()
-	else:
-		join_game()
+	Multi.setup_game()
+	if Multi.is_host:
+		power_tick.start()
+		hour_tick.start()
 
-func setup_game() -> void:
-	multiplayer_ui.visible = not is_solo
+func connect_office() -> void:
+	#multiplayer_ui.visible = Multi.is_multi
 	office_area.body_entered.connect(_on_office_entered)
 	office_area.body_exited.connect(_on_office_exited)
 
-## Host the multiplayer game
-func host_game() -> void:
-	# UPNP queries take some time.
-	var upnp = UPNP.new()
-	var result = upnp.discover()
-	upnp.discover(2000, 2, "InternetGatewayDevice")
-	ip = upnp.query_external_address()
-	
-	code_label.text = Multi.get_code_from_ip(ip)
-	if result != OK:
-		push_error("Game::host_game() >> Unable to discover")
-		push_error(error_string(result))
-		return
-	
-	if upnp.get_gateway() and upnp.get_gateway().is_valid_gateway():
-		upnp.add_port_mapping(PORT, PORT, ProjectSettings.get_setting("application/config/name"), "UDP")
-		upnp.add_port_mapping(PORT, PORT, ProjectSettings.get_setting("application/config/name"), "TCP")
-	else:
-		push_error("Game::host_game() >> Unable to get gateway")
-		return
-	print("Server ready!")
-	
-	peer.create_server(PORT,MAX_PLAYERS,MAX_CHANNELS)
-	multiplayer.multiplayer_peer = peer
-	multiplayer.peer_connected.connect(add_player)
-	add_player()
-	power_tick.start()
-	hour_tick.start()
-
-## Join the game with the given IP
-func join_game() -> void:
-	code_label.text = Multi.get_code_from_ip(ip)
-	peer.create_client(ip,PORT)
-	multiplayer.multiplayer_peer = peer
-	#peer.get_peer(1).send(1,"hello".to_ascii_buffer(),ENetPacketPeer.FLAG_RELIABLE)
-	
 ## Creates new Player classes to be added into the game
 func add_player(id : int = 1) -> void:
 	var new_player : Player = PLAYER_SCENE.instantiate()
@@ -126,7 +78,7 @@ func _player_disconnected(node : Node):
 ## Game Process
 func _process(delta: float) -> void:
 	# Power Updates
-	if is_solo or is_host:
+	if not Multi.is_multi or Multi.is_host:
 		power -= (delta * clamp(usage,1,5) * 0.09)
 	# Invariant Condition Updates
 	if int(floor(power)) < 1 and has_power:
@@ -134,9 +86,9 @@ func _process(delta: float) -> void:
 	elif hour == 6 and not complete:
 		game_complete()
 	# Multiplayer Updates
-	if is_solo: return
+	if not Global.is_multi: return
 	player_count = players.get_child_count()
-	player_count_label.text = "%s/%s" % [player_count,MAX_PLAYERS]
+	#player_count_label.text = "%s/%s" % [Multi.player_count,Multi.MAX_PLAYERS]
 # --- OFFICE METHODS ---
 func _on_office_entered(body : Node3D):
 	if body is Player:
@@ -156,7 +108,7 @@ func power_outage() -> void:
 	office_amb.stop()
 	player.horror_amb.stop()
 	player.bass_amb.stop()
-	outage_sfx.play()
+	#outage_sfx.play()
 	usage = 1
 	for i in [0,1]:
 		var wing : Wing = office_node.get_child(i)
@@ -179,7 +131,7 @@ func power_outage() -> void:
 
 func game_complete() -> void:
 	get_tree().paused = true
-	complete_animation.play("Complete")
+	ui.add_child(COMPLETE_SCENE.instantiate())
 	complete = true
 
 # ------------- Multiplayer Stuff -------------
@@ -224,5 +176,5 @@ func return_to_menu() -> void:
 	lights = [false,false]
 	for d : Door in $Doors.get_children():
 		d.is_open = false
-	peer.close()
+	Multi.peer.close()
 	get_tree().change_scene_to_file("res://Scenes/Menus/Title.tscn")

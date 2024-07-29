@@ -1,11 +1,11 @@
 class_name Player
 extends CharacterBody3D
 
-@onready var neck: Node3D = $Neck
-@onready var camera: Camera3D = $Neck/Camera
+@onready var head: Node3D = $Head
+@onready var camera: Camera3D = $Head/Camera
 @onready var animation: AnimationPlayer = $AnimationPlayer
-@onready var flashlight: SpotLight3D = $Neck/Camera/Flashlight
-@onready var selector: RayCast3D = $Neck/Camera/Selector
+@onready var flashlight: SpotLight3D = $Head/Camera/Flashlight
+@onready var selector: RayCast3D = $Head/Camera/Selector
 
 @onready var cam_animation: AnimationPlayer = $HUD/CamAnimation/AnimationPlayer
 @onready var cam_open: AudioStreamPlayer = $SFX/CamOpen
@@ -19,7 +19,7 @@ extends CharacterBody3D
 @onready var horror_amb: AudioStreamPlayer = $Ambience/HorrorAmb
 
 
-@onready var face: Sprite3D = $Neck/Face
+@onready var face: Sprite3D = $Head/Face
 
 @onready var hud: CanvasLayer = $HUD
 @onready var office_hud: Control = $HUD/OfficeHUD
@@ -29,6 +29,7 @@ extends CharacterBody3D
 @onready var usage_hud: Sprite2D = $HUD/OfficeHUD/MarginContainer/VBoxContainer2/HBoxContainer2/usage
 @onready var power_hud: Label = $HUD/OfficeHUD/MarginContainer/VBoxContainer2/HBoxContainer/power
 @onready var hour_hud: Label = $HUD/OfficeHUD/MarginContainer/VBoxContainer/HBoxContainer/hour
+@onready var esc_menu: Control = $HUD/EscMenu
 
 @onready var fade_in: AnimationPlayer = $HUD/Fade/FadeIn
 
@@ -36,6 +37,7 @@ extends CharacterBody3D
 
 const SPAWN_POSITION : Vector3 = Vector3(0,1.15,10)
 const WALK_SPEED : float = 2.5
+const CROUCH_SPEED : float = 1.0
 const RUN_SPEED : float = WALK_SPEED * 1.15
 const DECELERATION : float = 0.08
 
@@ -43,6 +45,7 @@ const IDLE_ANIM_SPEED : float = 0.3
 const WALK_ANIM_SPEED : float = 1.8
 const RUN_ANIM_SPEED : float = 2.8
 
+const MAX_HEAD_ANGLE : float = 45 ##Max Up/Down Angle in Degrees
 const TILT_SPEED : float = 0.005
 const TILT_STRENGTH : float = 0.8
 
@@ -50,6 +53,7 @@ var selector_node : Node = null
 var in_office : bool = false
 var in_cams : bool = false
 
+var mouse_sensitivity = Settings.mouse_sensitivity
 # -----------------  Main Loops  -----------------
 
 func _enter_tree() -> void:
@@ -65,38 +69,49 @@ func _physics_process(delta: float) -> void:
 	# --- Input Movement ---
 	handle_movement()
 	move_and_slide()
+	
 	# --- Heads Up Display ---
 	handle_hud(delta)
 	# --- Selector ---
 	selector_node = selector.get_collider()
+	
 
 func _unhandled_input(event) -> void:
 	if not is_multiplayer_authority(): return
 	# Mouse Capture
 	if event is InputEventMouseButton and not in_cams:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	elif event.is_action_pressed("ui_cancel"):
+	elif Input.is_action_just_pressed("menu") and not in_cams:
+		esc_menu.visible = !esc_menu.visible 
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	# Camera Movement
-	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-		if event is InputEventMouseMotion:
-			neck.rotate_y(-event.relative.x * 0.01)
-			camera.rotate_x(-event.relative.y * 0.01)
-			camera.rotation.x = clamp(camera.rotation.x, 
-				deg_to_rad(-70), deg_to_rad(70))
+	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED \
+		and event is InputEventMouseMotion:
+			rotate_y(-event.relative.x * 0.01
+				* mouse_sensitivity)
+			head.rotate_x(-event.relative.y * 0.01
+				* mouse_sensitivity)
+			head.rotation_degrees.x = clamp(
+				head.rotation_degrees.x, 
+				-MAX_HEAD_ANGLE,MAX_HEAD_ANGLE)
+			head.rotation_degrees.y = 0
 	# Flashlight Toggle
 	if Input.is_action_just_pressed("flashlight") and not in_office:
 		flashlight.visible = !flashlight.visible
 		flashlight_sfx.play()
+
+	# Selector Interaction
+	if Input.is_action_just_released("interact") \
+			and selector_hud.visible and selector_node:
+		handle_interaction()
+	if Input.is_action_just_pressed("cams") and in_office and not esc_menu.visible:
+		toggle_cams()
+	
+	# Invariant Conditions
 	if flashlight.visible and in_office:
 		flashlight.hide()
 		flashlight_sfx.play()
 	if in_cams and not in_office:
-		toggle_cams()
-	# Selector Interaction
-	if Input.is_action_just_released("interact") and selector_node:
-		handle_interaction()
-	if Input.is_action_just_pressed("cams") and in_office:
 		toggle_cams()
 
 # ---------------------------------------
@@ -116,7 +131,6 @@ func validate_authority() -> void:
 	set_physics_process(authority)
 	set_process_unhandled_input(authority)
 	camera.current = authority
-	face.visible = not authority
 	Input.set_mouse_mode(2*int(authority))
 
 ## Handle Player HUD every frame
@@ -125,17 +139,19 @@ func handle_hud(delta:float) -> void:
 	office_hud.modulate.a = clamp(
 		office_hud.modulate.a,0.0,1.0) 
 	selector_hud.visible = bool(selector_node != null)
+	if selector_hud.visible:
+		if selector_node.name in [&"Door",&"Light"]:
+			selector_hud.visible = in_office and not in_cams
 
 ## Handle Player Movement
 func handle_movement() -> void:
 	var input_dir := Input.get_vector(
-		"left", "right", "up", "down")
-	var direction := (neck.transform.basis * Vector3(
-		input_dir.x, 0, input_dir.y)).normalized()
+		"left", "right", "forward", "backward")
+	var direction := (transform.basis * 
+		Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	var speed : float = WALK_SPEED
 	var anim_speed : float = WALK_ANIM_SPEED
-	var is_running : bool = bool(
-		Input.get_action_strength("run"))
+	var is_running : bool = Input.is_action_pressed("run")
 	
 	direction *= int(not in_cams) # Check for in cams
 	
@@ -150,7 +166,11 @@ func handle_movement() -> void:
 		
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
-		camera.rotation_degrees.z = (TILT_STRENGTH+float(
+		head.rotation_degrees.z = (TILT_STRENGTH+float(
+			is_running)/5.0)*sin(
+				Time.get_ticks_msec()*(TILT_SPEED
+				+float(is_running)/900.0))
+		flashlight.rotation_degrees.z = -(TILT_STRENGTH+float(
 			is_running)/5.0)*sin(
 				Time.get_ticks_msec()*(TILT_SPEED
 				+float(is_running)/900.0))
@@ -165,29 +185,26 @@ func handle_movement() -> void:
 			WALK_SPEED*DECELERATION)
 		velocity.z = move_toward(velocity.z, 0, 
 			WALK_SPEED*DECELERATION)
-		camera.rotation.z = 0
+		head.rotation.z = 0
+		flashlight.rotation = Vector3.ZERO
 		animation.speed_scale = IDLE_ANIM_SPEED
 		footstep_sfx.stop()
 
-
+## Handle Selector Interaction
 func handle_interaction() -> void:
 	var interact_node = selector_node.get_parent().get_parent()
 	if interact_node is Door:
-		if Game.is_solo:
-			interact_node.toggle_door()
-		else:
-			interact_node.rpc("toggle_door")
+		interact_node.rpc("toggle_door")
 	elif interact_node is Wing:
-		if Game.is_solo:
-			interact_node.call_deferred("toggle_"+\
-				selector_node.name.to_lower())
-		else:
-			interact_node.rpc("toggle_"+\
-				selector_node.name.to_lower())
+		var method : String = "toggle_"+\
+			selector_node.name.to_lower()
+		interact_node.rpc(method)
 
+## Switch Cam State 
 func toggle_cams() -> void:
 	if not Game.has_power: return
 	if not cam_animation.is_playing():
+		esc_menu.hide()
 		in_cams = !in_cams
 		if in_cams:
 			game.rpc("update_cam_usage",game.usage + 1)
@@ -195,11 +212,11 @@ func toggle_cams() -> void:
 			cam_close.stop()
 			cam_animation.play("OpenCam")
 			await cam_animation.animation_finished
-			camera.current = false
+			camera.set_current(false)
 			camera_hud.show()
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		else:
-			camera.current = true
+			camera.set_current(true)
 			game.rpc("update_cam_usage",game.usage - 1)
 			cam_open.stop()
 			cam_close.play()

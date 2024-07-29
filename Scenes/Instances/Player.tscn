@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://dbc3i1bkur8fp"]
+[gd_scene load_steps=36 format=3 uid="uid://dbc3i1bkur8fp"]
 
 [ext_resource type="Script" path="res://Scripts/Instances/Player.gd" id="1_dg1qr"]
 [ext_resource type="Texture2D" uid="uid://bhsfvqpiq6ln7" path="res://Assets/Models/Players/face.png" id="2_5kcku"]
@@ -14,18 +14,27 @@
 [ext_resource type="AudioStream" uid="uid://b0i3uc1ehcbvi" path="res://Assets/Audio/Ambience/bass.ogg" id="9_swc87"]
 [ext_resource type="PackedScene" uid="uid://dq0nsqryvm57n" path="res://Scenes/Menus/CameraHUD.tscn" id="11_7dhy0"]
 [ext_resource type="AudioStream" uid="uid://c6e1h1i2bxs2h" path="res://Assets/Audio/Ambience/horror.ogg" id="14_yup5a"]
+[ext_resource type="PackedScene" uid="uid://0rqww43xo52j" path="res://Scenes/Menus/EscMenu.tscn" id="15_rc8d1"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_pqfqb"]
-radius = 0.05
-height = 0.4
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_resxt"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Neck:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [sub_resource type="SphereMesh" id="SphereMesh_fuapd"]
 radius = 0.18
 height = 0.36
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_34oaf"]
-radius = 0.18
+radius = 0.16
 height = 0.6
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_pqfqb"]
+radius = 0.05
+height = 0.4
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_hyu5c"]
 points = PackedVector3Array(0.285973, 0.510012, 0.0641187, -0.289751, -0.508273, -0.0465441, -0.26598, -0.527103, -0.112181, -0.246023, 0.575754, -0.113096, -0.0901399, 0.482689, 0.282961, 0.175116, -0.554551, 0.219505, 0.128954, -0.503414, -0.265106, 0.0418549, 0.509109, -0.290224, -0.221324, -0.503449, 0.194662, 0.282961, -0.482689, -0.0901399, 0.0432991, -0.731525, -0.0937992, -0.133756, -0.481621, -0.265187, -0.28676, 0.459275, 0.0850819, 0.043378, 0.732789, 0.0891953, 0.216729, 0.503833, -0.199575, 0.149104, 0.475981, 0.257347, -0.0687028, -0.508648, 0.285201, -0.175344, 0.475511, -0.240225, -0.0928164, -0.700993, 0.133301, 0.280243, -0.434652, 0.106286, 0.0879502, 0.700185, -0.137906, -0.183195, 0.677895, 0.0653882, 0.179259, -0.680995, 0.0656981, 0.0857793, -0.484897, 0.284266, -0.0706391, 0.705603, -0.138955, -0.286183, 0.436464, -0.0896661, -0.114948, -0.675374, -0.159997, -0.221324, 0.503449, 0.194662, 0.285201, 0.508648, -0.0687028, -0.0465451, -0.508284, -0.289757, 0.238621, 0.503781, 0.172878, 0.0641199, 0.51002, 0.285977)
@@ -34,17 +43,30 @@ points = PackedVector3Array(0.285973, 0.510012, 0.0641187, -0.289751, -0.508273,
 resource_name = "Move"
 length = 0.8
 loop_mode = 1
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Neck:position")
+tracks/0/path = NodePath("Head:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.433333, 0.8),
+"times": PackedFloat32Array(0, 0.4, 0.8),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, -0.06, 0), Vector3(0, 0, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0, -0.03, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body/Arms:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.03, 0), Vector3(0, 0.001, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_r8ym3"]
@@ -52,10 +74,22 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Neck:position")
+tracks/0/path = NodePath("Head:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body/Arms:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -67,14 +101,6 @@ _data = {
 "Move": SubResource("Animation_u5ju0"),
 "RESET": SubResource("Animation_r8ym3")
 }
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_resxt"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath("Neck:rotation")
-properties/1/spawn = true
-properties/1/replication_mode = 1
 
 [sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_bar03"]
 stream_count = 2
@@ -187,7 +213,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../Neck/Camera:fov")
+tracks/1/path = NodePath("../../Head/Camera:fov")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -226,7 +252,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../Neck/Camera:fov")
+tracks/1/path = NodePath("../../Head/Camera:fov")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -257,60 +283,76 @@ _data = {
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 2
+axis_lock_angular_y = true
 script = ExtResource("1_dg1qr")
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
 
-[node name="Neck" type="Node3D" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_resxt")
 
-[node name="Camera" type="Camera3D" parent="Neck"]
-far = 200.0
+[node name="Head" type="Node3D" parent="."]
+metadata/_edit_lock_ = true
 
-[node name="Flashlight" type="SpotLight3D" parent="Neck/Camera"]
-visible = false
-light_color = Color(1, 0.645757, 0.890324, 1)
-light_volumetric_fog_energy = 0.0
-spot_range = 5.6
-spot_attenuation = -1.0
-spot_angle = 35.0
-
-[node name="Selector" type="RayCast3D" parent="Neck/Camera"]
-target_position = Vector3(0, 0, -2)
-hit_from_inside = true
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="Face" type="Sprite3D" parent="Neck"]
-transform = Transform3D(0.08, 0, 0, 0, 0.08, 0, 0, 0, 0.08, 0, -0.0602113, -0.180498)
-modulate = Color(0, 0, 0, 1)
-texture = ExtResource("2_5kcku")
-
-[node name="Body2" type="MeshInstance3D" parent="Neck"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.120302, -0.932448, 0)
-mesh = SubResource("CapsuleMesh_pqfqb")
-skeleton = NodePath("../..")
-
-[node name="Body4" type="MeshInstance3D" parent="Neck"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.168823, -0.471573, 0)
-mesh = SubResource("CapsuleMesh_pqfqb")
-skeleton = NodePath("../..")
-
-[node name="Body5" type="MeshInstance3D" parent="Neck"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.184359, -0.471573, 0)
-mesh = SubResource("CapsuleMesh_pqfqb")
-skeleton = NodePath("../..")
-
-[node name="Body3" type="MeshInstance3D" parent="Neck"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.124453, -0.932448, 0)
-mesh = SubResource("CapsuleMesh_pqfqb")
-skeleton = NodePath("../..")
-
-[node name="Head" type="MeshInstance3D" parent="Neck"]
+[node name="Head" type="MeshInstance3D" parent="Head"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0517123, 0)
 mesh = SubResource("SphereMesh_fuapd")
 skeleton = NodePath("../..")
 
-[node name="Body" type="MeshInstance3D" parent="."]
+[node name="Camera" type="Camera3D" parent="Head"]
+far = 200.0
+
+[node name="Flashlight" type="SpotLight3D" parent="Head/Camera"]
+visible = false
+light_color = Color(1, 0.748845, 0.733916, 1)
+light_energy = 0.8
+light_volumetric_fog_energy = 0.0
+spot_range = 5.3
+spot_attenuation = -1.0
+spot_angle = 35.0
+
+[node name="Selector" type="RayCast3D" parent="Head/Camera"]
+target_position = Vector3(0, 0, -2.5)
+hit_from_inside = true
+collide_with_areas = true
+collide_with_bodies = false
+debug_shape_custom_color = Color(1, 1, 1, 1)
+
+[node name="Face" type="Sprite3D" parent="Head"]
+transform = Transform3D(-0.08, 0, -6.99382e-09, 0, 0.08, 0, 6.99382e-09, 0, -0.08, 0, -0.0602113, -0.180498)
+modulate = Color(0, 0, 0, 1)
+double_sided = false
+texture = ExtResource("2_5kcku")
+
+[node name="Body" type="Node3D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="Chest" type="MeshInstance3D" parent="Body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.495593, 0)
 mesh = SubResource("CapsuleMesh_34oaf")
+skeleton = NodePath("../..")
+
+[node name="Arms" type="Node3D" parent="Body"]
+
+[node name="ArmL" type="MeshInstance3D" parent="Body/Arms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.168823, -0.471573, 0)
+mesh = SubResource("CapsuleMesh_pqfqb")
+skeleton = NodePath("../../..")
+
+[node name="ArmR" type="MeshInstance3D" parent="Body/Arms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.184359, -0.471573, 0)
+mesh = SubResource("CapsuleMesh_pqfqb")
+skeleton = NodePath("../../..")
+
+[node name="LegL" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.120302, -0.932448, 0)
+mesh = SubResource("CapsuleMesh_pqfqb")
+skeleton = NodePath("../..")
+
+[node name="LegR" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.124453, -0.932448, 0)
+mesh = SubResource("CapsuleMesh_pqfqb")
+skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.55, 0)
@@ -338,9 +380,6 @@ attenuation_model = 2
 volume_db = -18.0
 max_db = -3.0
 bus = &"SFX"
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_resxt")
 
 [node name="Ambience" type="Node" parent="."]
 
@@ -402,7 +441,7 @@ text = "Click to interact"
 
 [node name="CamAnimation" type="Sprite2D" parent="HUD"]
 visible = false
-modulate = Color(1, 0.824741, 0.553114, 1)
+modulate = Color(1, 0.450514, 0, 1)
 texture_filter = 1
 texture = ExtResource("5_t4juj")
 centered = false
@@ -414,6 +453,7 @@ root_node = NodePath("../..")
 libraries = {
 "": SubResource("AnimationLibrary_dgsfx")
 }
+speed_scale = 1.2
 
 [node name="OfficeHUD" type="Control" parent="HUD"]
 texture_filter = 1
@@ -519,6 +559,13 @@ hframes = 5
 
 [node name="CameraHUD" parent="HUD" instance=ExtResource("11_7dhy0")]
 visible = false
+
+[node name="EscMenu" parent="HUD" instance=ExtResource("15_rc8d1")]
+visible = false
+offset_left = -101.0
+offset_top = -71.0
+offset_right = 101.0
+offset_bottom = 71.0
 
 [node name="Fade" type="ColorRect" parent="HUD"]
 visible = false

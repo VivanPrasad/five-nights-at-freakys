@@ -10,7 +10,7 @@ class_name Wing
 @onready var game : Game = $"/root/Game"
 @rpc("any_peer","call_local")
 func toggle_door() -> void:
-	if not Game.has_power: return 
+	if not can_toggle(): return 
 	if not door_animation.is_playing():
 		var state = Game.doors[get_index()]
 		Game.doors[get_index()] = !state # On -> Off
@@ -41,6 +41,8 @@ func toggle_light() -> void:
 			game.rpc("update_usage",game.usage + 1)
 		light_sfx.play()
 		light_animation.play("Light"+str(i))
-	
+func can_toggle() -> bool:
+	return bool(Game.has_power and not Game.player.in_cams
+		and Game.player.in_office)
 func get_other_wing() -> Wing:
 	return get_parent().get_child((get_index() + 1) % 2)
